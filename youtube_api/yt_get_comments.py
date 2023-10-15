@@ -1,6 +1,6 @@
-from dotenv import dotenv_values
+from dotenv import dotenv_values # pip3 instlal python-dotenv
 import os
-import googleapiclient.discovery
+import googleapiclient.discovery # pip3 install google-api-python-client
 
 secrets = dotenv_values("../.env")
 
@@ -30,7 +30,7 @@ def main():
     else:
         print(allComments)
 
-    # print(response)
+    print(response)
 
 
 if __name__ == "__main__":
