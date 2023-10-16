@@ -4,13 +4,14 @@ import googleapiclient.discovery
 import googleapiclient.errors
 from googleapiclient.http import MediaFileUpload
 import pickle
+import httplib2
 
 scopes = ["https://www.googleapis.com/auth/youtube"]
 
 def upload_to_yt(file_to_upload_path, title, description, category_id, privacy_status):
     credentials = None
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
+    if os.path.exists('youtube_api/token.pickle'):
+        with open('youtube_api/token.pickle', 'rb') as token:
             credentials = pickle.load(token)
 
     # Disable OAuthlib's HTTPS verification when running locally.
@@ -23,7 +24,7 @@ def upload_to_yt(file_to_upload_path, title, description, category_id, privacy_s
 
     if not credentials or not credentials.valid:
         if credentials and credentials.expired and credentials.refresh_token:
-            credentials.refresh(Request())
+            credentials.refresh(httplib2.Http())
         else:
             # Get credentials and create an API client
             flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
@@ -50,7 +51,7 @@ def upload_to_yt(file_to_upload_path, title, description, category_id, privacy_s
     response = request.execute()
 
     # Save the credentials for the next run
-    with open('token.pickle', 'wb') as token:
+    with open('youtube_api/token.pickle', 'wb') as token:
         pickle.dump(credentials, token)
 
     print(response)

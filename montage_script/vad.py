@@ -9,6 +9,9 @@ import numpy as np
 import librosa    
 import soundfile as sf
 
+## THE ORIGINAL CODE FOR THE VAD CAN BE FOUND HERE :
+## https://github.com/wiseman/py-webrtcvad/blob/master/example.py
+
 def read_wave(path):
     """Reads a .wav file.
 
@@ -101,7 +104,7 @@ def vad_collector(sample_rate, frame_duration_ms,
     for frame in frames:
         is_speech = vad.is_speech(frame.bytes, sample_rate)
 
-        sys.stdout.write('1' if is_speech else '0')
+        # sys.stdout.write('1' if is_speech else '0')
         if not triggered:
             ring_buffer.append((frame, is_speech))
             num_voiced = len([f for f, speech in ring_buffer if speech])
@@ -110,7 +113,7 @@ def vad_collector(sample_rate, frame_duration_ms,
             # TRIGGERED state.
             if num_voiced > 0.9 * ring_buffer.maxlen:
                 triggered = True
-                sys.stdout.write('+(%s)' % (ring_buffer[0][0].timestamp,))
+                # sys.stdout.write('+(%s)' % (ring_buffer[0][0].timestamp,))
                 # We want to yield all the audio we see from now until
                 # we are NOTTRIGGERED, but we have to start with the
                 # audio that's already in the ring buffer.
@@ -127,21 +130,21 @@ def vad_collector(sample_rate, frame_duration_ms,
             # unvoiced, then enter NOTTRIGGERED and yield whatever
             # audio we've collected.
             if num_unvoiced > 0.9 * ring_buffer.maxlen:
-                sys.stdout.write('-(%s)' % (frame.timestamp + frame.duration))
+                # sys.stdout.write('-(%s)' % (frame.timestamp + frame.duration))
                 triggered = False
                 yield b''.join([f.bytes for f in voiced_frames])
                 ring_buffer.clear()
                 voiced_frames = []
-    if triggered:
-        sys.stdout.write('-(%s)' % (frame.timestamp + frame.duration))
-    sys.stdout.write('\n')
+    # if triggered:
+    #     sys.stdout.write('-(%s)' % (frame.timestamp + frame.duration))
+    # sys.stdout.write('\n')
     # If we have any leftover voiced audio when we run out of input,
     # yield it.
     if voiced_frames:
         yield b''.join([f.bytes for f in voiced_frames])
 
 
-def make_audio_good_format(audio_file_path):
+def mp3_to_wav(audio_file_path):
     # files definition                                                                         
     src = audio_file_path
     dst = audio_file_path.split(".")[0] + ".wav"
@@ -185,8 +188,8 @@ def save_wav_channel(fn, wav, channel):
     outwav.writeframes(ch_data.tostring())
     outwav.close()
 
-def get_voice_time(audio_file_path):
-    new_file_name = make_audio_good_format(audio_file_path)
+def get_no_voice_clip(audio_file_path):
+    new_file_name = mp3_to_wav(audio_file_path)
     audio, sample_rate = read_wave(new_file_name)
     #level of agressivness
     vad = webrtcvad.Vad(1)
@@ -194,12 +197,25 @@ def get_voice_time(audio_file_path):
     frames = list(frames)
     segments = vad_collector(sample_rate, 30, 300, vad, frames)
 
-    duration_seconds = 0
-    for i, segment in enumerate(segments):
-        duration_seconds = len(segment)/64000
-        #just want the first segment
-        break
-    return duration_seconds
+    file_name_attr = new_file_name.split(".")
+    voice_free_audio_file_name = file_name_attr[0] + "_part2." + file_name_attr[1]
+    
+    nb_part = sum(1 for dummy in enumerate(segments))
+    print("Nb of cuts in original voice: (if 1 then no human voice)", nb_part)
+    if nb_part == 1:
+        return None
+    elif nb_part == 2:
+        for i, segment in enumerate(segments):
+            if i == 0:
+                continue
+            elif i == 1:
+                write_wave(voice_free_audio_file_name, segment, sample_rate)
+    #todo instead of exit make it so that it merges the rest of the videos together bc it's ok if
+    #there is a human voice in the middle/end of the video
+    else:
+        print("ERROR in get_no_voice_clip() vad.py")
+        exit
+    return voice_free_audio_file_name
 
     #OTHER WAY TO CALCULATE THE NB OF SECOND IF FIRST DOESN"T WORK
     #BUT NOT EFFICIENT LUL
@@ -209,15 +225,10 @@ def get_voice_time(audio_file_path):
         write_wave(segment_path, segment, sample_rate)
         #just want the first segment
         break
+    return get_audio_duration(segment_path)
+
+def get_audio_duration(audio_file_path):
     duration_seconds = 0
-    with wave.open(segment_path) as mywav:
+    with wave.open(audio_file_path) as mywav:
         duration_seconds = mywav.getnframes() / mywav.getframerate()
     return duration_seconds
-
-
-
-
-    # for i, segment in enumerate(segments):
-    #     path = 'chunk-%002d.wav' % (i,)
-    #     print(' Writing %s' % (path,))
-    #     write_wave(path, segment, sample_rate)
