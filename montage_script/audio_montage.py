@@ -50,7 +50,7 @@ def create_final_audio(vid_file_path, impr_audio_file_path):
 
 def cut_excess_audio(audio_filename, cut_duration):
     audio = AudioSegment.from_wav(audio_filename)
-    print("cut_duration: ", cut_duration)
+    # print("cut_duration: ", cut_duration)
     # pydub does things in milliseconds 
     cut_duration_ms = cut_duration * 1000
     final_audio = audio[-cut_duration_ms:]

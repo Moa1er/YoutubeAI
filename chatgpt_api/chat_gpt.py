@@ -29,8 +29,11 @@ def get_trend_keyword():
 
 def get_impression_and_title(vid_title, vid_comments, vid_duration):
     # takes 3 seconds of every 5 seconds increments in the video
-    max_impression_duration = vid_duration - (1 * vid_duration // 3)
-    print("max_impression_duration: ", max_impression_duration)
+    # max_impression_duration = vid_duration - (1 * vid_duration // 3)
+    # print("max_impression_duration: ", max_impression_duration)
+
+    # or fidn the max duration of the impression
+    max_impression_duration = 4
 
     messages = [ {"role": "system", "content":  
                 "You are a intelligent assistant that creates impression on tiktok videos."} ] 

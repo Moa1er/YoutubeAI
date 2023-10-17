@@ -39,10 +39,15 @@ def upload_to_yt(file_to_upload_path, title, description, category_id, privacy_s
             "snippet": {
                 "categoryId": category_id,
                 "description": description,
-                "title": title
+                "title": title,
+                "defaultLanguage": "en_US",
+                # TODO
+                "tags": [""],
+                
             },
             "status": {
-                "privacyStatus": privacy_status
+                "privacyStatus": privacy_status,
+                "selfDeclaredMadeForKids": True,
             }
         },
     
