@@ -27,7 +27,11 @@ def get_trend_keyword():
     
     return reply
 
-def get_impression_and_title(vod_title, vod_comments):
+def get_impression_and_title(vid_title, vid_comments, vid_duration):
+    # takes 3 seconds of every 5 seconds increments in the video
+    max_impression_duration = vid_duration - (1 * vid_duration // 3)
+    print("max_impression_duration: ", max_impression_duration)
+
     messages = [ {"role": "system", "content":  
                 "You are a intelligent assistant that creates impression on tiktok videos."} ] 
 
@@ -36,11 +40,14 @@ def get_impression_and_title(vod_title, vod_comments):
             "role": "user", 
             "content": 
                 "In one phrase, knowing that the title of the video is: '" 
-                + vod_title 
+                + vid_title 
                 + "' and the comments are: '" 
-                + vod_comments 
+                + vid_comments 
                 + "' give me an impression of the video (2 sentences)."
-                + " Give me only the impression and nothing else."}, 
+                + " Give me only the impression and nothing else. DO NOT use sentences with commas."
+                + " At 180 words per minute, the impression should be less time than "
+                + str(max_impression_duration) + " seconds (make sure to calculate the time it takes with the impression you give me, "
+                + "if it is more than the time I just gave you, start again)."}, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
 

@@ -8,6 +8,8 @@ import wave
 import numpy as np
 import librosa    
 import soundfile as sf
+from mutagen.mp3 import MP3 # pip install mutagen
+import subprocess
 
 ## THE ORIGINAL CODE FOR THE VAD CAN BE FOUND HERE :
 ## https://github.com/wiseman/py-webrtcvad/blob/master/example.py
@@ -188,6 +190,28 @@ def save_wav_channel(fn, wav, channel):
     outwav.writeframes(ch_data.tostring())
     outwav.close()
 
+def does_video_have_human_voice(vid_file_path):
+    audio_file_path = vid_file_path.split(".")[0] + "_video_sound.mp3"
+    get_audio_from_video(vid_file_path, audio_file_path)
+    new_file_name = mp3_to_wav(audio_file_path)
+    audio, sample_rate = read_wave(new_file_name)
+    #level of agressivness
+    vad = webrtcvad.Vad(1)
+    frames = frame_generator(30, audio, sample_rate)
+    frames = list(frames)
+    segments = vad_collector(sample_rate, 30, 300, vad, frames)
+    
+    nb_part = sum(1 for dummy in enumerate(segments))
+
+    return True if nb_part > 1 else False
+
+def get_audio_from_video(video_file, video_audio_name): 
+    """Converts video to audio directly using `ffmpeg` command
+    with the help of subprocess module"""
+    subprocess.call(["ffmpeg", "-y", "-i", video_file, video_audio_name], 
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.STDOUT)
+    
 def get_no_voice_clip(audio_file_path):
     new_file_name = mp3_to_wav(audio_file_path)
     audio, sample_rate = read_wave(new_file_name)
@@ -232,3 +256,7 @@ def get_audio_duration(audio_file_path):
     with wave.open(audio_file_path) as mywav:
         duration_seconds = mywav.getnframes() / mywav.getframerate()
     return duration_seconds
+
+def get_audio_duration_mp3(audio_file_path):
+    audio = MP3(audio_file_path)
+    return audio.info.length

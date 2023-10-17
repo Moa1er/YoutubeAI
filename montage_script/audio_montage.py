@@ -1,4 +1,4 @@
-from montage_script.vad import get_no_voice_clip, mp3_to_wav, get_audio_duration
+from montage_script.vad import get_no_voice_clip, mp3_to_wav, get_audio_duration_mp3, get_audio_from_video
 import subprocess
 from pydub import AudioSegment
 
@@ -46,12 +46,7 @@ def create_final_audio(vid_file_path, impr_audio_file_path):
 
     return final_audio_path, audio_extract_original_video_path_wav
 
-def get_audio_from_video(video_file, video_audio_name): 
-    """Converts video to audio directly using `ffmpeg` command
-    with the help of subprocess module"""
-    subprocess.call(["ffmpeg", "-y", "-i", video_file, video_audio_name], 
-                    stdout=subprocess.DEVNULL,
-                    stderr=subprocess.STDOUT)
+
 
 def cut_excess_audio(audio_filename, cut_duration):
     audio = AudioSegment.from_wav(audio_filename)
