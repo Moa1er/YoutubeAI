@@ -13,6 +13,18 @@ NB_COMMENTS_TO_GET = "100"
 ASSETS_FOLDER = "assets_produced/"
 
 def main():
+
+    # # VARIABLE FOR TESTS, TO REMOVE
+    # impression = "Mind-blowing and mesmerizing, this transition is pure fire, leaving viewers in awe and wanting more."
+    # impression_cleaned = impression.replace(",", " ")
+    # impression_cleaned = impression_cleaned.upper()
+    # vid_comments = "'How u fill a beach with coke.Why so clean.If imma be honest this one better than the salt transition vid.THAT WAS SMOOTH 🔥🔥🔥🔥🔥.y’all don’t know about them musically transitions 🥶.WHATATA.that’s crazyyyy.God this was smooth.ryangoslinglover369.why does my coffee taste salty.THIS IS THE BEST ONE YET.👈🏾 my honest reaction.this one wins undoubtedly 😏.HE COOKED🔥🔥🔥🔥🔥🔥🔥🔥AND I ORDERED 🔥🔥🔥🔥🔥.How are ppl so good at transitions 😭.Now I’m gonna see waves and think coffee bubbles.Y’all sleeping on the kung fu panda 3 transitions (maybe I think they cool because I was zooted).The best transition ever.Nice, but the salt transition better.OK THAT WAS CLEAN.Add a spinning skull and it’ll be perfect.and bro made this on an android 💀.At this point we can’t even say which one‘s the best - y’all ate 😮‍💨.DAMNNN🔥🔥🔥🔥.wow mezing.got me confused for a while.Love this trend.yall haven't seen the 'SALTIEST' one?.That looked like a transition in a James Bond movie.SO MANY PEOPLE ARE PUTTING FIRE EMOJIS🔥🔥🔥🔥🔥🔥.HOWWW😱😱😱😱😱😱.these are getting out of hand.dayum that’s sick.Nah bro this is to smooth.tufff.The best I've seen so far Wow ..That was smooth 🔥🔥🔥🔥🔥🔥🔥🔥.That’s not a beach it’s a coffee beach.WAIT I DIDN'T HEAR NO LET HIM COOK WAS HE JUST TOO GOOD FOR THAT WAIT WHATTT HE COOKED SO HARD THE SOUND DIDN'T EVEN PLAY 🔥🔥🔥🔥🔥🔥.Ow my brain.NAH ENOUGH MY EYES GOT THAT 4K PREMIUM FILTER.see that one before.I am a bad person.I’m doing this.this is fire.THIS IS FIRE🔥🔥.dayumn!!1!!1.The perfect transation doesn't exi-.OMG🔥'"
+    # new_vid_title = "Beach to Coffee: The Ultimate Transition"
+    # artefacts_file_name = "Transition_2023-10-18"
+    # final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
+    # video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
+    # impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
+
     # TESTED
     trend_keyword = get_trend_keyword()
     print("Trend_keyword is: " + trend_keyword)
@@ -33,14 +45,6 @@ def main():
     # gets comments from tiktok video
     vid_comments = get_vod_comments(aweme_id, NB_COMMENTS_TO_GET)
     print("Nb of comments: " + str(len(vid_comments)))
-    
-    # to remove
-    # vid_title = "#transition "
-    # vid_comments = "How u fill a beach with coke,Why so clean,If imma be honest this one better than the salt transition vid,THAT WAS SMOOTH 🔥🔥🔥🔥🔥,y’all don’t know about them musically transitions 🥶,WHATATA,that’s crazyyyy,God this was smooth,ryangoslinglover369,why does my coffee taste salty,THIS IS THE BEST ONE YET,👈🏾 my honest reaction,this one wins undoubtedly 😏,HE COOKED🔥🔥🔥🔥🔥🔥🔥🔥AND I ORDERED 🔥🔥🔥🔥🔥,How are ppl so good at transitions 😭,Now I’m gonna see waves and think coffee bubbles,Y’all sleeping on the kung fu panda 3 transitions (maybe I think they cool because I was zooted),The best transition ever,Nice, but the salt transition better,OK THAT WAS CLEAN,Add a spinning skull and it’ll be perfect,and bro made this on an android 💀,At this point we can’t even say which one‘s the best - y’all ate 😮‍💨,DAMNNN🔥🔥🔥🔥,wow mezing,got me confused for a while,Love this trend,yall haven't seen the 'SALTIEST' one?,That looked like a transition in a James Bond movie,SO MANY PEOPLE ARE PUTTING FIRE EMOJIS🔥🔥🔥🔥🔥🔥,HOWWW😱😱😱😱😱😱,these are getting out of hand,dayum that’s sick,Nah bro this is to smooth,tufff,The best I've seen so far Wow .,That was smooth 🔥🔥🔥🔥🔥🔥🔥🔥,That’s not a beach it’s a coffee beach,WAIT I DIDN'T HEAR NO LET HIM COOK WAS HE JUST TOO GOOD FOR THAT WAIT WHATTT HE COOKED SO HARD THE SOUND DIDN'T EVEN PLAY 🔥🔥🔥🔥🔥🔥,Ow my brain,NAH ENOUGH MY EYES GOT THAT 4K PREMIUM FILTER,see that one before,I’m doing this,I am a bad person,this is fire,THIS IS FIRE🔥🔥,dayumn!!1!!1,The perfect transation doesn't exi-,OMG🔥"
-    # artefacts_file_name = "Transition_2023-10-17"
-    # video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
-    # impression = "seamlesly tranformaing from a beach to a coffee cup, this transition video captivates from his smoothness and creativity, leaving viewers amazed and craving for more."
-    # impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
 
     # TESTED
     # gets impression text
@@ -64,14 +68,20 @@ def main():
     "]+", flags=re.UNICODE)
     impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
     
-    # TESTED
-    # gets third artefact "trend_keyword_date.mp4"
+    # # TESTED
+    # # gets third artefact "trend_keyword_date.mp4"
     final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
     make_montage(video_file_path, impression_file_path, final_vid_file_path, impression_cleaned)
 
+    # gets tag for the video
+    tags = get_vid_tags(new_vid_title, impression, ".".join(vid_comments))
+    print("tags: ", tags)
+    category_id = get_category_id(new_vid_title, impression, ".".join(vid_comments))
+    print("category_id: ", category_id)
+
     # TESTED
     # uploads to youtube
-    upload_to_yt(final_vid_file_path, new_vid_title, impression, "22", "unlisted")
+    upload_to_yt(final_vid_file_path, new_vid_title, impression, tags, category_id, "unlisted")
 
 if __name__ == '__main__':
     main()

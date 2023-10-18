@@ -13,8 +13,9 @@ def make_montage(original_vid_path, impr_audio_file_path, final_vid_file_path, i
     blurred_vid_path = create_blurred_vid(original_vid_path, get_audio_duration_mp3(impr_audio_file_path))
     blurred_text_vid_path = add_impression_txt(blurred_vid_path, impression_txt)
     impression_blurred_text_vid_path = montage_blurred_impression(impr_audio_file_path, blurred_text_vid_path)
-    impression_blurred_text_vid_cutted_path = impression_blurred_text_vid_path.split(".")[0] + "_cutted.mp4"
+    
     # the end of the video is often fucked so we cut a bit of it
+    impression_blurred_text_vid_cutted_path = impression_blurred_text_vid_path.split(".")[0] + "_cutted.mp4"
     cut_excess_video(impression_blurred_text_vid_path, 0, get_vid_duration(impression_blurred_text_vid_path) - 0.4, impression_blurred_text_vid_cutted_path)
     
     # CREATE SECOND PART (RESYNCRONIZATION BC ORIGINAL IS FUCKED FOR SOME REASON)
@@ -71,7 +72,7 @@ def add_impression_txt(vid_path, impression_txt):
 def put_text_on_vid(text, input_file_path, output_file_path, x="center"):
     if x == "center":
         w = "(w-text_w)/2"
-        h = "(h-text_h)/2 + 60"
+        h = "(h-text_h)/2 + 120"
     elif x == "left":
         w = "10"
         h = "h - 30"
@@ -82,14 +83,17 @@ def put_text_on_vid(text, input_file_path, output_file_path, x="center"):
     nb_cut_text = len(text.split()) / 4
     # print("nb_cut_text: ", nb_cut_text)
     impr_txt_divided = split_string_evenly(text, nb_cut_text)
-    text = "\n".join(impr_txt_divided)
+    impr_txt_divided = make_txt_centered(impr_txt_divided)
+    text = "\n\n".join(impr_txt_divided)
 
+    default_font = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+    font_file = "fonts/CONSOLAB.TTF"
     command = [
         "ffmpeg",
         "-loglevel", "quiet",
         "-y",
         "-i", input_file_path,
-        "-vf", f'drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:text={text}:fontcolor=white:fontsize=24:box=1:boxcolor=black@0.5:boxborderw=5:x={w}:y={h}',
+        "-vf", f'drawtext=fontfile={font_file}:text={text}:fontcolor=white:fontsize=30:box=1:boxcolor=black@0.5:boxborderw=15:x={w}:y={h}',
         "-codec:a", "copy",
         "-max_muxing_queue_size", "9999",
         output_file_path
@@ -103,7 +107,35 @@ def put_text_on_vid(text, input_file_path, output_file_path, x="center"):
         print("Command executed successfully!")
     else:
         print("Command failed!")
-        
+
+def make_txt_centered(list_text):
+    idx_longest_str, longest_str = max(enumerate(list_text), key=lambda x: len(x[1]))
+    size_longest_str = len(longest_str)
+
+    new_list_text = []
+    for i in range(0, len(list_text)):
+        if idx_longest_str:
+            new_list_text.append(list_text[i])
+            continue
+        size_str = len(list_text[i])
+        size_diff = size_longest_str - size_str
+        nb_of_space = 0
+        if size_diff < 2:
+            nb_of_space = 0
+        else:
+            nb_of_space = int(size_diff / 2)
+        new_str = " " * nb_of_space + list_text[i]
+
+        # print("list_text[i]: ", list_text[i])
+        # print("size_str: ", size_str)
+        # print("size_longest_str: ", size_longest_str)
+
+        # print("nb_of_space: ", nb_of_space)
+        # print("new_str: ", new_str)
+
+        new_list_text.append(new_str)
+    
+    return new_list_text
 
 def split_string_evenly(text, parts):
     words = text.split()

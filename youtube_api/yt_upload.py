@@ -8,7 +8,7 @@ import httplib2
 
 scopes = ["https://www.googleapis.com/auth/youtube"]
 
-def upload_to_yt(file_to_upload_path, title, description, category_id, privacy_status):
+def upload_to_yt(file_to_upload_path, title, description, tags, category_id, privacy_status):
     credentials = None
     if os.path.exists('youtube_api/token.pickle'):
         with open('youtube_api/token.pickle', 'rb') as token:
@@ -41,8 +41,7 @@ def upload_to_yt(file_to_upload_path, title, description, category_id, privacy_s
                 "description": description,
                 "title": title,
                 "defaultLanguage": "en_US",
-                # TODO
-                "tags": [""],
+                "tags": tags,
                 
             },
             "status": {

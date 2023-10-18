@@ -77,3 +77,63 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
     print(f"ChatGPT new title for vid: {vid_title}")
 
     return impression, vid_title
+
+
+def get_vid_tags(vid_title, vid_impression, vid_comments):
+    messages = [ {"role": "system", "content":  
+                "You are a intelligent assistant that gives me tags for youtube videos."} ] 
+
+    messages.append( 
+        {
+            "role": "user", 
+            "content": 
+                "In one phrase, knowing that the title of the video is: '" 
+                + vid_title 
+                + "', the comments are: '" 
+                + vid_comments 
+                + "' and the impression on the video is: '"
+                + vid_impression
+                + "', give me a list of tags for the video seperated by a comma. The output has to be less than 450 characters."
+                + "Give me only this list of tags and nothing else."
+        }, 
+    )
+    print("User request: " + messages[len(messages)-1]["content"])
+
+    chat = openai.ChatCompletion.create( 
+        model="gpt-3.5-turbo", messages=messages 
+    ) 
+    tags = chat.choices[0].message.content
+    print(f"ChatGPT impression: {tags}")
+
+    return tags.split(",")
+
+def get_category_id(vid_title, vid_impression, vid_comments):
+    possible_cat_id = "2 - Cars & Vehicles, 23 - Comedy, 27 - Education, 24 - Entertainment, 1 - Film & Animation, 20 - Gaming, 26 - How-to & Style, 10 - Music, 25 - News & Politics, 29 - Non-profits & Activism, 22 - People & Blogs, 15 - Pets & Animals, 28 - Science & Technology, 17 - Sport, 19 - Travel & Events"
+
+    messages = [ {"role": "system", "content":  
+                "You are a intelligent assistant that gives me categoryId for youtube videos."} ] 
+
+    messages.append( 
+        {
+            "role": "user", 
+            "content": 
+                "In one phrase, knowing that the title of the video is: '" 
+                + vid_title 
+                + "', the comments are: '" 
+                + vid_comments 
+                + "' and the impression on the video is: '"
+                + vid_impression
+                + "', give me the category id for this video. Here are the possible category id: '"
+                + possible_cat_id 
+                + "' Answer me ONLY the id and nothing else." 
+        }, 
+    )
+    print("User request: " + messages[len(messages)-1]["content"])
+
+    chat = openai.ChatCompletion.create( 
+        model="gpt-3.5-turbo", messages=messages 
+    ) 
+    cat_id = chat.choices[0].message.content
+    print(f"ChatGPT impression: {cat_id}")
+
+    return cat_id
