@@ -5,10 +5,9 @@ from moviepy.editor import VideoFileClip, AudioFileClip # pip3 install moviepy
 
 
 from montage_script.audio_processing.audio_montage import get_audio_from_video
-from montage_script.audio_processing.vad import get_audio_duration_mp3
 from montage_script.audio_processing.tools import *
 from montage_script.video_processing.subtitles import add_impression_txt
-from montage_script.video_processing.video_montage import create_blurred_vid, get_vid_duration, cut_excess_video, merge_vid
+from montage_script.video_processing.video_montage import create_blurred_vid, get_vid_duration, cut_excess_video, merge_vid, mute_video_at_interval
 
 
 def make_montage(original_vid_path, impr_audio_file_path, final_vid_file_path, impression_txt):
@@ -16,21 +15,22 @@ def make_montage(original_vid_path, impr_audio_file_path, final_vid_file_path, i
     #produces "_blurred.mp4" and "_blurred_cutted.mp4"
     #TODO make video last longer for bigger impression audio compared to video
     blurred_vid_path = create_blurred_vid(original_vid_path, get_audio_duration_mp3(impr_audio_file_path))
+    #put text on the video
+    impression_blurred_text_vid_path = add_impression_txt(blurred_vid_path, impr_audio_file_path, impression_txt)
     #produces "_blurred_with_sound.mp4"
-    impression_blurred_vid_path = montage_blurred_impression(impr_audio_file_path, blurred_vid_path)
-    impression_blurred_text_vid_path = add_impression_txt(impression_blurred_vid_path, impr_audio_file_path, impression_txt)
+    impression_blurred_text_sound_vid_path = montage_blurred_impression(impr_audio_file_path, impression_blurred_text_vid_path)
     
-    # the end of the video is often fucked so we cut a bit of it
-    impression_blurred_text_vid_cutted_path = impression_blurred_text_vid_path.split(".")[0] + "_cutted.mp4"
-    cut_excess_video(impression_blurred_text_vid_path, 0, get_vid_duration(impression_blurred_text_vid_path) - 0.4, impression_blurred_text_vid_cutted_path)
-    
+    # the video has some sound at the end of it and i don't know why so i mute the end (-0.3 bc we need it ok?)
+    impression_blurred_text_sound_fixed_vid_path = mute_video_at_interval(impression_blurred_text_sound_vid_path, get_audio_duration_mp3(impr_audio_file_path) - 0.3, get_vid_duration(impression_blurred_text_sound_vid_path))
+
     # CREATE SECOND PART (RESYNCRONIZATION BC ORIGINAL IS FUCKED FOR SOME REASON)
     syncronized_vid_path = syncronize_original_vid(original_vid_path)
     syncronized_vid_path_cutted = syncronized_vid_path.split(".")[0] + "_cutted.mp4"
+    # 0.4 is very random but it is very much working
     cut_excess_video(syncronized_vid_path, 0, get_vid_duration(syncronized_vid_path) - 0.4, syncronized_vid_path_cutted)
 
     # MERGES BOTH VIDEOS TOGETHER
-    merge_vid([impression_blurred_text_vid_cutted_path, syncronized_vid_path_cutted], final_vid_file_path)
+    merge_vid([impression_blurred_text_sound_fixed_vid_path, syncronized_vid_path_cutted], final_vid_file_path)
     
     # REMOVES ALL TMP FILES
     remove_files_starting_with(original_vid_path.split(".")[0] + '_')

@@ -46,9 +46,9 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
                 + vid_title 
                 + "' and the comments are: '" 
                 + vid_comments 
-                + "' give me an impression of the video (2 sentences)."
+                + "' give me an impression of the video."
                 + " Give me only the impression and nothing else."
-                + " The impression should be maximum 15 words."}, 
+                + " The impression should be maximum 12 words."}, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
 
@@ -64,7 +64,7 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
             "content": 
                 "In one short phrase, knowing that the impression of the video is: '"
                 + impression
-                + "' give me a short title for the video."}, 
+                + "' give me a short title for the video. The tite should NOT BE more than 100 characters."}, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
 
@@ -101,7 +101,7 @@ def get_vid_tags(vid_title, vid_impression, vid_comments):
         model="gpt-3.5-turbo", messages=messages 
     ) 
     tags = chat.choices[0].message.content
-    print(f"ChatGPT impression: {tags}")
+    print(f"ChatGPT tags: {tags}")
 
     return tags.split(",")
 
@@ -132,7 +132,7 @@ def get_category_id(vid_title, vid_impression, vid_comments):
         model="gpt-3.5-turbo", messages=messages 
     ) 
     cat_id = chat.choices[0].message.content
-    print(f"ChatGPT impression: {cat_id}")
+    print(f"ChatGPT cat_id: {cat_id}")
 
     return cat_id
 
@@ -163,6 +163,6 @@ def get_description(vid_title, vid_comments, tags):
         model="gpt-3.5-turbo", messages=messages 
     ) 
     description = chat.choices[0].message.content
-    print(f"ChatGPT impression: {description}")
+    print(f"ChatGPT description: {description}")
 
     return description

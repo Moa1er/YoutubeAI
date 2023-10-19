@@ -1,6 +1,5 @@
 import collections
 import contextlib
-import sys
 import wave
 import webrtcvad
 from pydub import AudioSegment
@@ -8,8 +7,8 @@ import wave
 import numpy as np
 import librosa    
 import soundfile as sf
-from mutagen.mp3 import MP3 # pip install mutagen
 import subprocess
+
 
 ## THE ORIGINAL CODE FOR THE VAD CAN BE FOUND HERE :
 ## https://github.com/wiseman/py-webrtcvad/blob/master/example.py
@@ -105,8 +104,6 @@ def vad_collector(sample_rate, frame_duration_ms,
     voiced_frames = []
     for frame in frames:
         is_speech = vad.is_speech(frame.bytes, sample_rate)
-
-        # sys.stdout.write('1' if is_speech else '0')
         if not triggered:
             ring_buffer.append((frame, is_speech))
             num_voiced = len([f for f, speech in ring_buffer if speech])
@@ -115,7 +112,6 @@ def vad_collector(sample_rate, frame_duration_ms,
             # TRIGGERED state.
             if num_voiced > 0.9 * ring_buffer.maxlen:
                 triggered = True
-                # sys.stdout.write('+(%s)' % (ring_buffer[0][0].timestamp,))
                 # We want to yield all the audio we see from now until
                 # we are NOTTRIGGERED, but we have to start with the
                 # audio that's already in the ring buffer.
@@ -137,9 +133,6 @@ def vad_collector(sample_rate, frame_duration_ms,
                 yield b''.join([f.bytes for f in voiced_frames])
                 ring_buffer.clear()
                 voiced_frames = []
-    # if triggered:
-    #     sys.stdout.write('-(%s)' % (frame.timestamp + frame.duration))
-    # sys.stdout.write('\n')
     # If we have any leftover voiced audio when we run out of input,
     # yield it.
     if voiced_frames:
@@ -149,7 +142,7 @@ def vad_collector(sample_rate, frame_duration_ms,
 def mp3_to_wav(audio_file_path):
     # files definition                                                                         
     src = audio_file_path
-    dst = audio_file_path.split(".")[0] + ".wav"
+    dst = audio_file_path.split(".")[0] + "_new_format.wav"
 
     # convert wav to mp3                                                            
     sound = AudioSegment.from_mp3(src)
@@ -179,7 +172,7 @@ def save_wav_channel(fn, wav, channel):
         raise ValueError("sample width {} not supported".format(depth))
     if channel >= nch:
         raise ValueError("cannot extract channel {} out of {}".format(channel+1, nch))
-    print ("Extracting channel {} out of {} channels, {}-bit depth".format(channel+1, nch, depth*8))
+    # print ("Extracting channel {} out of {} channels, {}-bit depth".format(channel+1, nch, depth*8))
     data = np.fromstring(sdata, dtype=typ)
     ch_data = data[channel::nch]
 
@@ -225,7 +218,7 @@ def get_no_voice_clip(audio_file_path):
     voice_free_audio_file_name = file_name_attr[0] + "_part2." + file_name_attr[1]
     
     nb_part = sum(1 for dummy in enumerate(segments))
-    print("Nb of cuts in original voice: (if 1 then no human voice)", nb_part)
+    # print("Nb of cuts in original voice: (if 1 then no human voice)", nb_part)
     if nb_part == 1:
         return None
     elif nb_part == 2:
@@ -243,20 +236,10 @@ def get_no_voice_clip(audio_file_path):
 
     #OTHER WAY TO CALCULATE THE NB OF SECOND IF FIRST DOESN"T WORK
     #BUT NOT EFFICIENT LUL
-    segment_path = audio_file_path.split(".")[0] + '_chunk.wav'
-    for i, segment in enumerate(segments):
-        print(' Writing %s' % (segment_path,))
-        write_wave(segment_path, segment, sample_rate)
-        #just want the first segment
-        break
-    return get_audio_duration(segment_path)
-
-def get_audio_duration(audio_file_path):
-    duration_seconds = 0
-    with wave.open(audio_file_path) as mywav:
-        duration_seconds = mywav.getnframes() / mywav.getframerate()
-    return duration_seconds
-
-def get_audio_duration_mp3(audio_file_path):
-    audio = MP3(audio_file_path)
-    return audio.info.length
+    # segment_path = audio_file_path.split(".")[0] + '_chunk.wav'
+    # for i, segment in enumerate(segments):
+    #     print(' Writing %s' % (segment_path,))
+    #     write_wave(segment_path, segment, sample_rate)
+    #     #just want the first segment
+    #     break
+    # return get_audio_duration(segment_path)

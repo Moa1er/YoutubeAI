@@ -1,4 +1,4 @@
-from montage_script.audio_processing.vad import get_no_voice_clip, mp3_to_wav, get_audio_duration_mp3, get_audio_from_video
+from montage_script.audio_processing.vad import mp3_to_wav, get_audio_from_video
 import subprocess
 from pydub import AudioSegment
 
@@ -17,36 +17,9 @@ def create_final_audio(vid_file_path, impr_audio_file_path):
     audio_extract_original_video_path_wav = audio_extract_original_video_path_mp3.split(".")[0] + ".wav"
     # gathering the file names of each audio files
     impression_audio_path = mp3_to_wav(impr_audio_file_path)
-    # audio_no_voice_filename is the audio from the video that has no voice from a person in it
-    audio_no_voice_path = get_no_voice_clip(audio_extract_original_video_path_mp3)
-    # means there is no human voice in the video
-    if(audio_no_voice_path == None):
-        merge_parts_and_silent(impression_audio_path, audio_extract_original_video_path_wav, final_audio_path)
-        return final_audio_path, audio_extract_original_video_path_wav
 
-    # TODO 
-    # impression_duration = get_audio_duration(impression_audio_path)
-    # audio_no_voice_duration = get_audio_duration(audio_no_voice_path)
-    # duration_both_part = impression_duration + audio_no_voice_duration
-    # original_audio_duration = get_audio_duration(audio_extract_original_video_path_wav)
-
-    # print("original_audio_duration: ", original_audio_duration)
-    # print("duration_both_part: ", duration_both_part)
-    # print("duration_both_part > original_audio_duration", duration_both_part > original_audio_duration)
-    # if duration_both_part > original_audio_duration:
-    #     # # we cannot cut the impression part so we will cut audio_no_voice_filename
-    #     # cut_duration = duration_both_part - impression_duration
-    #     # # overwrites old audio so filename doesn't change
-    #     # cut_excess_audio(audio_no_voice_filename, cut_duration)
-    #     merge_parts_and_silent(impression_audio_path, audio_no_voice_path, final_audio_path)
-    # else:
-    #     # get a blank audio segment for the middle between part 1 and 2
-    #     silence_duration = original_audio_duration - duration_both_part
-    #     merge_parts_and_silent(impression_audio_path, audio_no_voice_path, final_audio_path, silence_duration)
-
+    merge_parts_and_silent(impression_audio_path, audio_extract_original_video_path_wav, final_audio_path)
     return final_audio_path, audio_extract_original_video_path_wav
-
-
 
 def cut_excess_audio(audio_filename, cut_duration):
     audio = AudioSegment.from_wav(audio_filename)
