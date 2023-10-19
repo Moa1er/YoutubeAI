@@ -47,10 +47,8 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
                 + "' and the comments are: '" 
                 + vid_comments 
                 + "' give me an impression of the video (2 sentences)."
-                + " Give me only the impression and nothing else. DO NOT use sentences with commas."
-                + " At 180 words per minute, the impression should be less time than "
-                + str(max_impression_duration) + " seconds (make sure to calculate the time it takes with the impression you give me, "
-                + "if it is more than the time I just gave you, start again)."}, 
+                + " Give me only the impression and nothing else."
+                + " The impression should be maximum 15 words."}, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
 
@@ -137,3 +135,34 @@ def get_category_id(vid_title, vid_impression, vid_comments):
     print(f"ChatGPT impression: {cat_id}")
 
     return cat_id
+
+def get_description(vid_title, vid_comments, tags):
+    messages = [ {"role": "system", "content":  
+                "You are a intelligent assistant that gives me a description for youtube videos."} ] 
+
+    messages.append( 
+        {
+            "role": "user", 
+            "content": 
+                "In one phrase, knowing that the title of the video is: '" 
+                + vid_title 
+                + "', the comments are: '" 
+                + vid_comments 
+                + "' and the tags are: '"
+                + tags
+                + "', give me a description for my video."
+                + "Make sure the description contains a lot of trendy words that could"
+                + " make my video recommended to a lot of different people."
+                + " You have to include the word 'trend' somewhere in the description."
+                + "Just give me the description and nothing else." 
+        }, 
+    )
+    print("User request: " + messages[len(messages)-1]["content"])
+
+    chat = openai.ChatCompletion.create( 
+        model="gpt-3.5-turbo", messages=messages 
+    ) 
+    description = chat.choices[0].message.content
+    print(f"ChatGPT impression: {description}")
+
+    return description
