@@ -2,3 +2,4 @@
 assets_produced/
 data/
 __pycache__
+token.pickle

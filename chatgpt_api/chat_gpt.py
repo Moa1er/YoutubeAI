@@ -64,7 +64,11 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
             "content": 
                 "In one short phrase, knowing that the impression of the video is: '"
                 + impression
-                + "' give me a short title for the video. The tite should NOT BE more than 100 characters."}, 
+                + "' give me a short title for the video."
+                + "The tite should NOT BE more than 100 characters."
+                + "The title should be some kind of interactions with the public"
+                + " or something that gives them the want to click on the video."
+        }, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
 
@@ -123,7 +127,7 @@ def get_category_id(vid_title, vid_impression, vid_comments):
                 + vid_impression
                 + "', give me the category id for this video. Here are the possible category id: '"
                 + possible_cat_id 
-                + "' Answer me ONLY the id and nothing else." 
+                + "' Answer me ONLY the id and nothing else."
         }, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
