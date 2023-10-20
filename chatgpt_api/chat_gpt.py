@@ -112,7 +112,20 @@ def get_vid_tags(vid_title, vid_impression, vid_comments):
     tags = chat.choices[0].message.content
     print(f"ChatGPT tags: {tags}")
 
-    return tags.split(",")
+    return tag_too_long(tags.replace(" ", "").split(","))
+
+def tag_too_long(tags):
+    # Calculate total characters of all tags combined
+    total_chars = sum([len(tag) for tag in tags])
+
+    # While the total number of characters is above the threshold, remove the longest tag
+    while total_chars > 350:
+        # Find the longest tag
+        last_tag = tags[len(tags) - 1]
+        tags.remove(last_tag)
+        total_chars -= len(last_tag)
+    
+    return tags
 
 def get_category_id(vid_title, vid_impression, vid_comments):
     possible_cat_id = "2 - Cars & Vehicles, 23 - Comedy, 27 - Education, 24 - Entertainment, 1 - Film & Animation, 20 - Gaming, 26 - How-to & Style, 10 - Music, 25 - News & Politics, 29 - Non-profits & Activism, 22 - People & Blogs, 15 - Pets & Animals, 28 - Science & Technology, 17 - Sport, 19 - Travel & Events"
@@ -164,9 +177,10 @@ def get_description(vid_title, vid_comments, tags):
                 + " make my video recommended to a lot of different people."
                 + "You have to include the word 'trend' somewhere in the description."
                 + "Just give me the description and nothing else."
-                + "You have to sound human and give the want for clicking on the video."
                 + "Don't start by 'Get ready to' this kind of first sentence is annoying."
-                + "Just give an honest reaction to the video."
+                + "Just give a human honest reaction to the video by explaining what you thought personnaly "
+                + "and what emotions you did have (invent emotions linked to the video) while finding a way to" 
+                + " phrase it so that humans would be attracted to click on it."
                 + "The description should not be more than 200 characters." 
         }, 
     )

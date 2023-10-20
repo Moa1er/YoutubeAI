@@ -52,12 +52,13 @@ def add_vid_to_yt(category_id, description, title, tags, privacy_status, file_to
 
     youtube = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
+        # Save the credentials for the next run
+    with open(TOKEN_PATH, 'wb') as token:
+        pickle.dump(credentials, token)
+        
     vid_id = upload_vid(youtube, category_id, description, title, tags, privacy_status, file_to_upload_path)
     add_vid_to_playlist(youtube, vid_id, playlist_id)
     
-    # Save the credentials for the next run
-    with open(TOKEN_PATH, 'wb') as token:
-        pickle.dump(credentials, token)
 
 
 def delayed_keyStrokes(string_to_send):

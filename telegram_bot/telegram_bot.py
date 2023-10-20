@@ -5,7 +5,7 @@ import time
 secrets = dotenv_values(".env")
 TOKEN = secrets['TELEGRAM_BOT_API_KEY']
 CHAT_ID = secrets['TELEGRAM_CHAT_ID']
-WAITING_TIME_FOR_PASSWD = 100
+WAITING_TIME_FOR_PASSWD = 200
 
 
 def send_telegram_message(text):

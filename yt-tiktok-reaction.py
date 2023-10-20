@@ -19,18 +19,20 @@ ASSETS_FOLDER = "assets_produced/"
      
 def main():
     # VARIABLE FOR TESTS, TO REMOVE
-    # impression = "Mind-blowing transformation leaves viewers in awe of the incredible glow-up."
+    # impression = "I miss you so much, it hurts."
     # impression_cleaned = impression.replace(",", " ")
     # impression_cleaned = impression_cleaned
-    # vid_comments = "scrolled, realized it was bryce hall, came back, realized it wasnt.@✮ it looks like bryce hall😭.Or else what 😭.Insta reels would eat this up ❤️😘.Cuteness overload ;-;.sorry for looking into your eyes without permission.caption..oh! 🥰.the caption??😭?.@no BRYCE HALL.@Caroline @Josie i thought this was bryce hall..cuteness overload !! >•<.@Bea it’s so preppy in here 🥰.@sαv⸆⸉ @mia🪷 bryce hall.guys its talking abt the audio not them.@¡¡ORAMO!! cuteness not loading🤭.@milo oh.@AAAA you.@aether @izzi THE CAPTION.DO WHAT.@drez 🙆‍♂️ caption??.@shane u.This is so preppy!!.Ur beautiful.this is me if u even care.@justplainolM00 Jacob.this might be me😔.@Bryce Hall IT LOOKS LIKE U 🥰🥰.@🫧 marletta tell them how cute they are or else.cuteness overload.@lanz this is reminiscent of esan.@MILEZ 😧 @AJ 💫🫧 @ghost 👻 dannie coded.thats something...it’s so preppy in here!!.@syd gulp 😰.@ellie🩵 cuteness overload🤭🤭.So kawaii core!![cute](*^o^*).@suhruthi oh lord.Real..@Alara 🪩 my spirit animal.cuteness won't load 😻.alr...Cuteness won’tload 😜🥰.@gillian? this is u lol.@Ry WHAT IS HAPPENING...post this on instagram reels.This is the sound I feel like a stingray would make if you hugged it.to cuter.i edge to ur videos.@ilana Kirby 😋"
-    # new_vid_title = 'Stunning Glow-Up: Prepare to be Amazed! 😍 #Shorts'
-    # artefacts_file_name = "Transformation_2023-10-20"
+    # vid_comments = "@Bella Gonterman.@Sawyer Moss.@Adale Louallen.@jayci🫶🧍‍♀️.@vicky.@emma.@Mr.@Marissahollins.@🏳️‍🌈Jessica🏳️‍🌈 🥰🥰.@Kaveman.@Foxstargaming6.@annier_218.@Joe_Rathbone.@Lil D.@I S A.@Lauren.@Steph Jones.@steph.I miss you too!.@user94683553728 I miss you.@Kimberly Smith.@𐌂𝕙𝕝𝕠𝕖 𝕋𝕪𝕝𝕖𝕣.@Micca Ella♥️.@safeplace.@Jnene.@LeahNicolePartin.@jazz..@Jenna Switzer.@annie ; ).@Madhouse3.@jayden😈.@Adelaide Trevaskis.@🔪bunny🔪.@😙❤️‍🩹abbey❤️‍🩹😙.I can’t sent it in the heaven.@𝑆𝑜𝑝ℎ𝑖𝑎 𝑟𝑜𝑠𝑒🦋.@myb.@𝑱𝒂𝒔𝒎𝒊𝒏𝒆 ✨ 🥺🥺.@Charlie Moore.@kaplyn😛.@micel🎀🤸‍♀️.@Elyssa Delilah.@Sherwayne Palmer.@❤️Madison❤️.@random_videos.@Jessica Mae 🥰.@jameslynrusiana.@Brianna cardwell 🩵.@sheamarley93.@Shannon Jane"
+    # new_vid_title = "Who do you miss the most? 😢 #Shorts"
+    # artefacts_file_name = "love_2023-10-20"
     # final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
     # video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
     # impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
-    # description = "Get ready to be amazed by this stunning glow-up transformation! This jaw-dropping video will leave you in awe as you witness an incredible mind-blowing journey of a real-life glow-up. From height to eyes that will make you swoon, this transformation is nothing short of breathtaking. With over 1.3 million likes, it's clear that this video is the latest trend that everyone is buzzing about. Prepare to be mind-blown as you watch this tall glow-up unfold before your eyes. This is the ultimate transformation goals that will leave you speechless and wanting more. Don't miss out on this wow-worthy video that is taking the internet by storm. Get ready to experience the power of a remarkable glow-up, because this video is on fire! #glowuptransformation #amazingtransformation #mindblowingglowup #stunningglowup #transformationgoals #jawdroppingglowup #incredibletransformation #wowtransformation #tallglowup #glowupjourney #trend"
-    # tags = ['#glowuptransformation', ' #amazingtransformation', ' #mindblowingglowup', ' #stunningglowup', ' #transformationgoals', ' #jawdroppingglowup', ' #incredibletransformation', ' #wowtransformation', ' #tallglowup', ' #glowupjourney']
-    # category_id = "24"
+    # description = "Discover the heartwarming moments of #Shorts as talented creators @BellaGonterman, @SawyerMoss, @AdaleLouallen, and many others express who they miss the most. This trending video is a must-watch, filled with emotion and relatable moments that will make you reach for the tissues. Don't miss out on this touching and relatable content. #TrendAlert"
+    # tags = ['#Shorts', ' Who do you miss the most', ' Bella Gonterman', ' Sawyer Moss', ' Adale Louallen', ' jayci', ' vicky', ' emma', ' Mr', ' Marissahollins', ' Jessica', ' Kaveman', ' Foxstargaming6', ' annier_218', ' Joe_Rathbone', ' Lil D', ' I S A', ' Lauren', ' Steph Jones', ' Steph', ' Kimberly Smith', ' 𝕙𝕝𝕠𝕖 𝕋𝕪𝕝𝕖𝕣', ' Micca Ella', ' safeplace', ' Jnene', ' LeahNicolePartin', ' jazz', ' Jenna Switzer', ' annie', ' Madhouse3', ' jayden', ' Adelaide Trevaskis', ' bunny', ' abbey', ' 𝑆𝑜𝑝ℎ𝑖𝑎 𝑟𝑜𝑠𝑒', ' myb', ' 𝑱𝒂𝒔𝒎𝒊𝒏𝒆', ' Charlie Moore', ' kaplyn', ' micel', ' Elyssa Delilah', ' Sherwayne Palmer', ' Madison', ' random_videos', ' Jessica Mae', ' jameslynrusiana', ' Brianna cardwell', ' sheamarley93', ' Shannon Jane']
+    # tags = tag_too_long(tags)
+    # print((",").join(tags))
+    # category_id = "22"
 
     # ##############################################################
     # ## START SCRIPT
