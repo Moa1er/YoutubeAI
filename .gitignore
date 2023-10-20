@@ -3,3 +3,4 @@ assets_produced/
 data/
 __pycache__
 token.pickle
+vosk-model-en-us-0.22

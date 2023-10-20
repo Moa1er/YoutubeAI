@@ -8,8 +8,14 @@ from montage_script.audio_processing.vad import mp3_to_wav
 
 # get better model here https://alphacephei.com/vosk/models/vosk-model-en-us-0.42-gigaspeech.zip
 def get_word_timestamp(audio_filename):
+    #TO REMOVE
     audio_path = mp3_to_wav(audio_filename)
-    model_path = "montage_script/audio_processing/models/vosk-model-small-en-us-0.15"
+    # if not downloded bigger model, uncomment this
+    # model_path = "montage_script/audio_processing/models/vosk-model-small-en-us-0.15"
+    # bigger model that needs to me downloaded. It is rly more precise so use this one
+    # there is a model even more precise but I don't think it is needed as this model
+    # already make no mistake (for now)
+    model_path = "montage_script/audio_processing/models/vosk-model-en-us-0.22"
 
     model = Model(model_path)
     wf = wave.open(audio_path, "rb")
@@ -46,15 +52,14 @@ def verify_timestamps(word_timings, audio_duration):
         # [1] is the index of the start_time
         curr_start = word_timings[i][0]
 
+        word_timings[i] = (word_timings[i][0], word_timings[i][1])
         # Check if the end time of the previous word is not equal to the start time of the current word
         if prev_end != curr_start:
             word_timings[i-1] = (prev_start, curr_start)
         
         if i == len(word_timings) - 1:
-            print("HELLO WORLD")
-            word_timings[i] = (word_timings[i][0], word_timings[i][1] + 1)
+            word_timings[i] = (word_timings[i][0], word_timings[i][1])
             
-    print("word_timings: ", word_timings)
     return word_timings
 
 def get_audio_duration(audio_file_path):

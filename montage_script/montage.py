@@ -12,8 +12,7 @@ from montage_script.video_processing.video_montage import create_blurred_vid, ge
 
 def make_montage(original_vid_path, impr_audio_file_path, final_vid_file_path, impression_txt):
     # CREATES THE FIRST PART WITH THE IMPRESSION ON BLURRED BACKGROUND
-    #produces "_blurred.mp4" and "_blurred_cutted.mp4"
-    #TODO make video last longer for bigger impression audio compared to video
+    # produces "_blurred.mp4" and "_blurred_cutted.mp4"
     blurred_vid_path = create_blurred_vid(original_vid_path, get_audio_duration_mp3(impr_audio_file_path))
     #put text on the video
     impression_blurred_text_vid_path = add_impression_txt(blurred_vid_path, impr_audio_file_path, impression_txt)
@@ -21,7 +20,7 @@ def make_montage(original_vid_path, impr_audio_file_path, final_vid_file_path, i
     impression_blurred_text_sound_vid_path = montage_blurred_impression(impr_audio_file_path, impression_blurred_text_vid_path)
     
     # the video has some sound at the end of it and i don't know why so i mute the end (-0.3 bc we need it ok?)
-    impression_blurred_text_sound_fixed_vid_path = mute_video_at_interval(impression_blurred_text_sound_vid_path, get_audio_duration_mp3(impr_audio_file_path) - 0.3, get_vid_duration(impression_blurred_text_sound_vid_path))
+    impression_blurred_text_sound_fixed_vid_path = mute_video_at_interval(impression_blurred_text_sound_vid_path, get_audio_duration_mp3(impr_audio_file_path), get_vid_duration(impression_blurred_text_sound_vid_path))
 
     # CREATE SECOND PART (RESYNCRONIZATION BC ORIGINAL IS FUCKED FOR SOME REASON)
     syncronized_vid_path = syncronize_original_vid(original_vid_path)

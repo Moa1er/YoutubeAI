@@ -65,9 +65,12 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
                 "In one short phrase, knowing that the impression of the video is: '"
                 + impression
                 + "' give me a short title for the video."
-                + "The tite should NOT BE more than 100 characters."
+                + "The tite should NOT BE more than 5 words. It should be a sentence."
+                + "Do not put the character ':' in the answer."
+                + "You can add an emoji too but not necessary."
                 + "The title should be some kind of interactions with the public"
-                + " or something that gives them the want to click on the video."
+                + " or something that gives them the want to click on the video. Please sound human !"
+                + "It can be a question to the public for example."
         }, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
@@ -157,8 +160,12 @@ def get_description(vid_title, vid_comments, tags):
                 + "', give me a description for my video."
                 + "Make sure the description contains a lot of trendy words that could"
                 + " make my video recommended to a lot of different people."
-                + " You have to include the word 'trend' somewhere in the description."
-                + "Just give me the description and nothing else." 
+                + "You have to include the word 'trend' somewhere in the description."
+                + "Just give me the description and nothing else."
+                + "You have to sound human and give the want for clicking on the video."
+                + "Don't start by 'Get ready to' this kind of first sentence is annoying."
+                + "Just give an honest reaction to the video."
+                + "The description should not be more than 200 characters." 
         }, 
     )
     print("User request: " + messages[len(messages)-1]["content"])

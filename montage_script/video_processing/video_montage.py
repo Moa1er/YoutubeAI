@@ -66,10 +66,10 @@ def mute_video_at_interval(video_path, start_time, end_time):
     # Split the clip into three parts
     clip1 = clip.subclip(0, start_time)
     clip2 = clip.subclip(start_time, end_time).volumex(0)  # Mute this part
-    clip3 = clip.subclip(end_time, clip.duration)
+    # clip3 = clip.subclip(end_time, clip.duration)
     
     # Concatenate the clips
-    final_clip = concatenate_videoclips([clip1, clip2, clip3])
+    final_clip = concatenate_videoclips([clip1, clip2])
     
     # Write to the output file
     final_clip.write_videofile(output_path, codec="libx264", audio_codec="aac")

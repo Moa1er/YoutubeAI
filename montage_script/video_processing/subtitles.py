@@ -2,6 +2,7 @@ import subprocess
 import math
 from montage_script.audio_processing.tools import get_word_timestamp
 import re
+import random
 
 def add_impression_txt(vid_path, aud_path, text):
     # get the timestamps of each word in the aud_impression_file
@@ -44,10 +45,10 @@ def create_word_timings(text, word_timestamps):
     return word_timings
 
 def create_command_filters(word_timings):
-    font_size = 35
+    font_size = 40
     font_file = "fonts/CONSOLAB.TTF"
     w = "(w-text_w)/2"
-    h = "(h-text_h)/2 + 120"
+    h = "(h-text_h)/2 + 200"
     filters = []
     text_to_display_tot = []
     for word, start_time, end_time in word_timings:
@@ -55,7 +56,7 @@ def create_command_filters(word_timings):
             text_to_display_tot = []
             continue
         text_to_display_tot.append(word)
-        filter_string = f"drawtext=fontfile={font_file}:text='{(' '.join(text_to_display_tot))}':x={w}:y={h}:fontsize={font_size}:fontcolor=white:enable='between(t,{start_time},{end_time})'"
+        filter_string = f"drawtext=fontfile={font_file}:text='{(' '.join(text_to_display_tot))}':x={w}:y={h}:fontsize={font_size}:fontcolor=white:enable='between(t,{start_time},{end_time})':borderw=3:bordercolor=black"
         filters.append(filter_string)
 
     return filters
@@ -66,7 +67,13 @@ def run_text_command(video_path, filters):
 
     output_path = video_path.split(".")[0] + "_text_final.mp4"
     command = [
-        "ffmpeg", "-y", "-loglevel", "quiet", "-i", video_path, "-vf", filter_complex, "-c:a", "copy", output_path
+        "ffmpeg", 
+        "-y", 
+        "-loglevel", "quiet", 
+        "-i", video_path, 
+        "-vf", filter_complex, 
+        "-c:a", "copy", 
+        output_path
     ]
     subprocess.run(command)
 
