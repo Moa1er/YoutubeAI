@@ -52,8 +52,7 @@ def add_vid_to_yt(category_id, description, title, tags, privacy_status, file_to
 
     youtube = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
-    # vid_id = upload_vid(youtube, category_id, description, title, tags, privacy_status, file_to_upload_path)
-    vid_id = "M8GUro-ykZg"
+    vid_id = upload_vid(youtube, category_id, description, title, tags, privacy_status, file_to_upload_path)
     add_vid_to_playlist(youtube, vid_id, playlist_id)
     
     # Save the credentials for the next run

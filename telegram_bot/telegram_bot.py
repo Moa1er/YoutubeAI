@@ -4,8 +4,7 @@ import time
 
 secrets = dotenv_values(".env")
 TOKEN = secrets['TELEGRAM_BOT_API_KEY']
-
-CHAT_ID = "6949343041"
+CHAT_ID = secrets['TELEGRAM_CHAT_ID']
 WAITING_TIME_FOR_PASSWD = 100
 
 
