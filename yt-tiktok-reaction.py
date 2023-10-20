@@ -9,12 +9,14 @@ from youtube_api.yt_upload import *
 from montage_script.audio_processing.tools import *
 import re
 from thumbnail_creation.thumbnail import *
+import time
+
+
 
 NB_VOD_TO_COMP = "30"
 NB_COMMENTS_TO_GET = "100"
 ASSETS_FOLDER = "assets_produced/"
      
-
 def main():
     # VARIABLE FOR TESTS, TO REMOVE
     impression = "Mind-blowing transformation leaves viewers in awe of the incredible glow-up."
@@ -30,84 +32,84 @@ def main():
     tags = ['#glowuptransformation', ' #amazingtransformation', ' #mindblowingglowup', ' #stunningglowup', ' #transformationgoals', ' #jawdroppingglowup', ' #incredibletransformation', ' #wowtransformation', ' #tallglowup', ' #glowupjourney']
     category_id = "24"
 
-    ##############################################################
-    ## START SCRIPT
-    ##############################################################
+    # ##############################################################
+    # ## START SCRIPT
+    # ##############################################################
     
-    # chat gpt get trend but always the same so nope
-    # trend_keyword = get_trend_keyword()
+    # # chat gpt get trend but always the same so nope
+    # # trend_keyword = get_trend_keyword()
 
-    # those keyword are extracted with chatgpt-4 + bing
-    list_trend_keywords = ['tiktok', 'love', 'like', 'follow', 'explore', '2023', 'meme', 'video', 'followforfollowback', 'duet', 'repost', 'tiktokchallenge', 'new', 'tiktokfamous', 'tiktoktrend', 'viralvideos', 'viralpost', 'blackgirlfollowtrend', 'relatable', 'slowmo', 'behindthescenes', 'dadsoftiktok', 'momsoftiktok', 'family', 'reallifeathome', 'tiktokmademebuyit', 'mexico', 'challenge', 'youtube', 'youtuber', 'artistsoftiktok', 'foryoupage', 'fyp', 'foryou', 'viral', 'funny', 'memes', 'followme', 'cute', 'fun', 'music', 'happy', 'fashion', 'comedy', 'bestvideo', 'tiktok4fun', 'thisis4u', 'loveyoutiktok', 'cutebaby', 'cutegirl', 'pregnantlife', 'cuteness', 'cuteboy']
-    trend_keyword = random.choice(list_trend_keywords)
-    # print("Trend_keyword is: " + trend_keyword)
+    # # those keyword are extracted with chatgpt-4 + bing
+    # list_trend_keywords = ['tiktok', 'love', 'like', 'follow', 'explore', '2023', 'meme', 'video', 'followforfollowback', 'duet', 'repost', 'tiktokchallenge', 'new', 'tiktokfamous', 'tiktoktrend', 'viralvideos', 'viralpost', 'blackgirlfollowtrend', 'relatable', 'slowmo', 'behindthescenes', 'dadsoftiktok', 'momsoftiktok', 'family', 'reallifeathome', 'tiktokmademebuyit', 'mexico', 'challenge', 'youtube', 'youtuber', 'artistsoftiktok', 'foryoupage', 'fyp', 'foryou', 'viral', 'funny', 'memes', 'followme', 'cute', 'fun', 'music', 'happy', 'fashion', 'comedy', 'bestvideo', 'tiktok4fun', 'thisis4u', 'loveyoutiktok', 'cutebaby', 'cutegirl', 'pregnantlife', 'cuteness', 'cuteboy']
+    # trend_keyword = random.choice(list_trend_keywords)
+    # # print("Trend_keyword is: " + trend_keyword)
 
-    # creation of the name for the resulting files
-    artefacts_file_name = trend_keyword + "_" + datetime.datetime.now().strftime("%Y-%m-%d")
-    # creation of the path for the video file from tiktok
-    video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
+    # # creation of the name for the resulting files
+    # artefacts_file_name = trend_keyword + "_" + datetime.datetime.now().strftime("%Y-%m-%d")
+    # # creation of the path for the video file from tiktok
+    # video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
 
-    # gets video title and url + aweme_id from tiktok
-    vid_title, vid_url, aweme_id = get_vid_treding(
-        trend_keyword, 
-        NB_VOD_TO_COMP, 
-        video_file_path
-    )
-    print("Video found: " + vid_title)
-    print("Vod URL: " + vid_url)
-    print("Vid id: " + aweme_id)
+    # # gets video title and url + aweme_id from tiktok
+    # vid_title, vid_url, aweme_id = get_vid_treding(
+    #     trend_keyword, 
+    #     NB_VOD_TO_COMP, 
+    #     video_file_path
+    # )
+    # print("Video found: " + vid_title)
+    # print("Vod URL: " + vid_url)
+    # print("Vid id: " + aweme_id)
 
-    # gets comments from tiktok video
-    vid_comments = get_vod_comments(aweme_id, NB_COMMENTS_TO_GET)
-    print("Nb of comments: " + str(len(vid_comments)))
+    # # gets comments from tiktok video
+    # vid_comments = get_vod_comments(aweme_id, NB_COMMENTS_TO_GET)
+    # print("Nb of comments: " + str(len(vid_comments)))
 
-    # gets impression text
-    impression, new_vid_title = get_impression_and_title(
-        vid_title, ".".join(vid_comments), 
-        get_vid_duration(video_file_path)
-    )
-    new_vid_title += " #Shorts"
-    print("impression: " + impression)
-    print("new_vid_title: " + new_vid_title)
+    # # gets impression text
+    # impression, new_vid_title = get_impression_and_title(
+    #     vid_title, ".".join(vid_comments), 
+    #     get_vid_duration(video_file_path)
+    # )
+    # new_vid_title += " #Shorts"
+    # print("impression: " + impression)
+    # print("new_vid_title: " + new_vid_title)
 
-    # gets second artefact "trend_keyword_tmp_date.mp3"
-    impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
-    text_to_speech(impression, impression_file_path)
-    # because the sofware doesn't like commas
-    impression_cleaned = impression.replace(",", " ").replace(".", " ")
-    # removal of '"' in the title bc it sucks and chat gpt gives it everytime
-    new_vid_title = new_vid_title.replace('"', "")
+    # # gets second artefact "trend_keyword_tmp_date.mp3"
+    # impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
+    # text_to_speech(impression, impression_file_path)
+    # # because the sofware doesn't like commas
+    # impression_cleaned = impression.replace(",", " ").replace(".", " ")
+    # # removal of '"' in the title bc it sucks and chat gpt gives it everytime
+    # new_vid_title = new_vid_title.replace('"', "")
 
-    # remoing of emoji bc cannot show them on the video
-    emoji_pattern = re.compile("["
-        u"\U0001F600-\U0001F64F"  # emoticons
-        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-        u"\U0001F680-\U0001F6FF"  # transport & map symbols
-        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-    "]+", flags=re.UNICODE)
-    impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
+    # # remoing of emoji bc cannot show them on the video
+    # emoji_pattern = re.compile("["
+    #     u"\U0001F600-\U0001F64F"  # emoticons
+    #     u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+    #     u"\U0001F680-\U0001F6FF"  # transport & map symbols
+    #     u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+    # "]+", flags=re.UNICODE)
+    # impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
 
-    # gets third artefact "trend_keyword_date.mp4"
-    final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
-    make_montage(
-        video_file_path, 
-        impression_file_path, 
-        final_vid_file_path, 
-        impression_cleaned
-    )
+    # # gets third artefact "trend_keyword_date.mp4"
+    # final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
+    # make_montage(
+    #     video_file_path, 
+    #     impression_file_path, 
+    #     final_vid_file_path, 
+    #     impression_cleaned
+    # )
     
-    # gets tag + category_id + description for the video
-    joined_comment = ".".join(vid_comments)
-    tags = get_vid_tags(new_vid_title, impression, joined_comment)
-    print("tags: ", tags)
-    category_id = get_category_id(new_vid_title, impression, joined_comment)
-    print("category_id: ", category_id)
-    description = get_description(new_vid_title, joined_comment, " ".join(tags))
-    print("description: ", description)
+    # # gets tag + category_id + description for the video
+    # joined_comment = ".".join(vid_comments)
+    # tags = get_vid_tags(new_vid_title, impression, joined_comment)
+    # print("tags: ", tags)
+    # category_id = get_category_id(new_vid_title, impression, joined_comment)
+    # print("category_id: ", category_id)
+    # description = get_description(new_vid_title, joined_comment, " ".join(tags))
+    # print("description: ", description)
 
-    # uploads to youtube and adds to playlist
-    # id playlist reaction : PLpoAErUqpB6cdPK-rxiFItyLQ0CN-v2sZ
-    # id playlist compilation : PLpoAErUqpB6dz70h9KPbB0dOCn0XCtBZH
+    # # uploads to youtube and adds to playlist
+    # # id playlist reaction : PLpoAErUqpB6cdPK-rxiFItyLQ0CN-v2sZ
+    # # id playlist compilation : PLpoAErUqpB6dz70h9KPbB0dOCn0XCtBZH
     add_vid_to_yt(
         category_id, 
         description, 
@@ -117,6 +119,10 @@ def main():
         final_vid_file_path, 
         "PLpoAErUqpB6cdPK-rxiFItyLQ0CN-v2sZ"
     )
+
+
+
+
 
 if __name__ == '__main__':
     main()

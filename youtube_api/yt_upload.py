@@ -5,6 +5,16 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google.auth.transport.requests import Request
+from telegram_bot.telegram_bot import *
+import builtins
+import io
+from contextlib import redirect_stdout
+import sys
+from pyKey import sendSequence
+import threading
+import cursor
+cursor.hide()
+
 
 SCOPES = ["https://www.googleapis.com/auth/youtube"]
 
@@ -28,7 +38,16 @@ def add_vid_to_yt(category_id, description, title, tags, privacy_status, file_to
     if credentials and credentials.expired and credentials.refresh_token:
         credentials.refresh(Request())
     elif not credentials or not credentials.valid:
-        flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
+        flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES, redirect_uri='urn:ietf:wg:oauth:2.0:oob')
+        authorization_url, _ = flow.authorization_url()
+        #sends auth url on my telegram
+        send_telegram_message(authorization_url)
+        # waits 300s for me to give the code
+        response = read_telegram_messages()
+        # sends the code delayed as key pressed to give it to the console
+        # this is fricking genius
+        t = threading.Thread(target=delayed_detection, args=(response,))
+        t.start()
         credentials = flow.run_console()
 
     youtube = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
@@ -41,6 +60,10 @@ def add_vid_to_yt(category_id, description, title, tags, privacy_status, file_to
     with open(TOKEN_PATH, 'wb') as token:
         pickle.dump(credentials, token)
 
+
+def delayed_detection(string_to_send):
+    time.sleep(1)
+    sendSequence(string_to_send + '\n')
 
 def upload_vid(youtube, category_id, description, title, tags, privacy_status, file_to_upload_path):
     request = youtube.videos().insert(
