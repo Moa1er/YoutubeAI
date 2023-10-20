@@ -47,8 +47,10 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
                 + "' and the comments are: '" 
                 + vid_comments 
                 + "' give me an impression of the video."
-                + " Give me only the impression and nothing else."
-                + " The impression should be maximum 12 words."}, 
+                + "Give me only the impression and nothing else."
+                + "The impression should be maximum 12 words."
+                + "Speak at the first person not like everyone agrees with you."
+        }, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
 

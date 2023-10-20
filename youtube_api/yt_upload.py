@@ -1,11 +1,10 @@
 import os
+import pickle
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google.auth.transport.requests import Request
-import google_auth_oauthlib.flow
-import googleapiclient.errors
 
 SCOPES = ["https://www.googleapis.com/auth/youtube"]
 
@@ -20,7 +19,7 @@ def add_vid_to_yt(category_id, description, title, tags, privacy_status, file_to
 
     if os.path.exists(TOKEN_PATH):
         with open(TOKEN_PATH, 'rb') as token:
-            credentials = Credentials.from_authorized_user_file(TOKEN_PATH)
+            credentials = pickle.load(token)
 
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
@@ -34,12 +33,13 @@ def add_vid_to_yt(category_id, description, title, tags, privacy_status, file_to
 
     youtube = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
 
-    vid_id = upload_vid(youtube, category_id, description, title, tags, privacy_status, file_to_upload_path)
+    # vid_id = upload_vid(youtube, category_id, description, title, tags, privacy_status, file_to_upload_path)
+    vid_id = "M8GUro-ykZg"
     add_vid_to_playlist(youtube, vid_id, playlist_id)
     
     # Save the credentials for the next run
-    with open(TOKEN_PATH, 'w') as token:
-        token.write(credentials.to_json())
+    with open(TOKEN_PATH, 'wb') as token:
+        pickle.dump(credentials, token)
 
 
 def upload_vid(youtube, category_id, description, title, tags, privacy_status, file_to_upload_path):
