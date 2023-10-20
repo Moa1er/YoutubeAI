@@ -25,4 +25,3 @@ def read_telegram_messages():
     auth_code = list_msg[len(list_msg) - 1]["message"]["text"]
     print("auth_code: ", auth_code)
     return auth_code
-

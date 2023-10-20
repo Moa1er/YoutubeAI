@@ -46,7 +46,7 @@ def add_vid_to_yt(category_id, description, title, tags, privacy_status, file_to
         response = read_telegram_messages()
         # sends the code delayed as key pressed to give it to the console
         # this is fricking genius
-        t = threading.Thread(target=delayed_detection, args=(response,))
+        t = threading.Thread(target=delayed_keyStrokes, args=(response,))
         t.start()
         credentials = flow.run_console()
 
@@ -60,7 +60,7 @@ def add_vid_to_yt(category_id, description, title, tags, privacy_status, file_to
         pickle.dump(credentials, token)
 
 
-def delayed_detection(string_to_send):
+def delayed_keyStrokes(string_to_send):
     time.sleep(1)
     sendSequence(string_to_send + '\n')
 
