@@ -101,7 +101,7 @@ def get_vid_tags(vid_title, vid_impression, vid_comments):
                 + "' and the impression on the video is: '"
                 + vid_impression
                 + "', give me a list of tags for the video seperated by a comma. The output has to be less than 450 characters."
-                + "Give me only this list of tags and nothing else."
+                + "Give me only this list of tags and nothing else. Each tag has to start with '#'."
         }, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
@@ -178,9 +178,7 @@ def get_description(vid_title, vid_comments, tags):
                 + "You have to include the word 'trend' somewhere in the description."
                 + "Just give me the description and nothing else."
                 + "Don't start by 'Get ready to' this kind of first sentence is annoying."
-                + "Just give a human honest reaction to the video by explaining what you thought personnaly "
-                + "and what emotions you did have (invent emotions linked to the video) while finding a way to" 
-                + " phrase it so that humans would be attracted to click on it."
+                + "Speak at the first person, speaking about your impression."
                 + "The description should not be more than 200 characters." 
         }, 
     )

@@ -9,6 +9,7 @@ from youtube_api.yt_upload import *
 from montage_script.audio_processing.tools import *
 import re
 from thumbnail_creation.thumbnail import *
+from selenium_script.tiktok_scraper import *
 import time
 
 
@@ -23,13 +24,13 @@ def main():
     # impression_cleaned = impression.replace(",", " ")
     # impression_cleaned = impression_cleaned
     # vid_comments = "@Bella Gonterman.@Sawyer Moss.@Adale Louallen.@jayci🫶🧍‍♀️.@vicky.@emma.@Mr.@Marissahollins.@🏳️‍🌈Jessica🏳️‍🌈 🥰🥰.@Kaveman.@Foxstargaming6.@annier_218.@Joe_Rathbone.@Lil D.@I S A.@Lauren.@Steph Jones.@steph.I miss you too!.@user94683553728 I miss you.@Kimberly Smith.@𐌂𝕙𝕝𝕠𝕖 𝕋𝕪𝕝𝕖𝕣.@Micca Ella♥️.@safeplace.@Jnene.@LeahNicolePartin.@jazz..@Jenna Switzer.@annie ; ).@Madhouse3.@jayden😈.@Adelaide Trevaskis.@🔪bunny🔪.@😙❤️‍🩹abbey❤️‍🩹😙.I can’t sent it in the heaven.@𝑆𝑜𝑝ℎ𝑖𝑎 𝑟𝑜𝑠𝑒🦋.@myb.@𝑱𝒂𝒔𝒎𝒊𝒏𝒆 ✨ 🥺🥺.@Charlie Moore.@kaplyn😛.@micel🎀🤸‍♀️.@Elyssa Delilah.@Sherwayne Palmer.@❤️Madison❤️.@random_videos.@Jessica Mae 🥰.@jameslynrusiana.@Brianna cardwell 🩵.@sheamarley93.@Shannon Jane"
-    # new_vid_title = "Who do you miss the most? 😢 #Shorts"
-    # artefacts_file_name = "love_2023-10-20"
+    # new_vid_title = "Can you figure out this mind-blowing magic trick? 🤔✨ #Shorts"
+    # artefacts_file_name = "followme_2023-10-23"
     # final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
     # video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
     # impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
     # description = "Discover the heartwarming moments of #Shorts as talented creators @BellaGonterman, @SawyerMoss, @AdaleLouallen, and many others express who they miss the most. This trending video is a must-watch, filled with emotion and relatable moments that will make you reach for the tissues. Don't miss out on this touching and relatable content. #TrendAlert"
-    # tags = ['#Shorts', ' Who do you miss the most', ' Bella Gonterman', ' Sawyer Moss', ' Adale Louallen', ' jayci', ' vicky', ' emma', ' Mr', ' Marissahollins', ' Jessica', ' Kaveman', ' Foxstargaming6', ' annier_218', ' Joe_Rathbone', ' Lil D', ' I S A', ' Lauren', ' Steph Jones', ' Steph', ' Kimberly Smith', ' 𝕙𝕝𝕠𝕖 𝕋𝕪𝕝𝕖𝕣', ' Micca Ella', ' safeplace', ' Jnene', ' LeahNicolePartin', ' jazz', ' Jenna Switzer', ' annie', ' Madhouse3', ' jayden', ' Adelaide Trevaskis', ' bunny', ' abbey', ' 𝑆𝑜𝑝ℎ𝑖𝑎 𝑟𝑜𝑠𝑒', ' myb', ' 𝑱𝒂𝒔𝒎𝒊𝒏𝒆', ' Charlie Moore', ' kaplyn', ' micel', ' Elyssa Delilah', ' Sherwayne Palmer', ' Madison', ' random_videos', ' Jessica Mae', ' jameslynrusiana', ' Brianna cardwell', ' sheamarley93', ' Shannon Jane']
+    # tags = ['#MagicTrick', '#MindBlowing', '#Shorts', '#Magician', '#Impressive', '#PreparationIsKey', '#FunnyReactions', '#EyesWideOpen', '#Illusion', '#RevealingTheSecret', '#ScienceOfMagic', '#MoneyHeist', '#NewFollower', '#SilkThruHand', '#Teamwork', '#FollowMe', '#MagicGimmicks', '#CleverTrick', '#Amazed', '#MagicImpression']
     # tags = tag_too_long(tags)
     # print((",").join(tags))
     # category_id = "22"
@@ -52,6 +53,7 @@ def main():
     video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
 
     # gets video title and url + aweme_id from tiktok
+    # also download third artefact "trend_keyword_date.mp4"
     vid_title, vid_url, aweme_id = get_vid_treding(
         trend_keyword, 
         NB_VOD_TO_COMP, 
@@ -60,6 +62,9 @@ def main():
     print("Video found: " + vid_title)
     print("Vod URL: " + vid_url)
     print("Vid id: " + aweme_id)
+
+    # gets the last frame of the video for the thumbnail
+    thumbnail_path = extract_last_frame(video_file_path)
 
     # gets comments from tiktok video
     vid_comments = get_vod_comments(aweme_id, NB_COMMENTS_TO_GET)
@@ -91,7 +96,6 @@ def main():
     "]+", flags=re.UNICODE)
     impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
 
-    # gets third artefact "trend_keyword_date.mp4"
     final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
     make_montage(
         video_file_path, 
@@ -119,8 +123,16 @@ def main():
         tags, 
         "unlisted", 
         final_vid_file_path, 
-        "PLpoAErUqpB6cdPK-rxiFItyLQ0CN-v2sZ"
+        "PLpoAErUqpB6cdPK-rxiFItyLQ0CN-v2sZ",
+        thumbnail_path
     )
 
+    # uploads to tiktok
+    upload_tiktok_vid(new_vid_title + " ".join(tags), final_vid_file_path)
+
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:
+        send_telegram_message("PROGRAM CRASHED:")
+        send_telegram_message(str(e))
