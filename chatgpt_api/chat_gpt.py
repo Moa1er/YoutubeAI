@@ -160,26 +160,23 @@ def get_category_id(vid_title, vid_impression, vid_comments):
 
 def get_description(vid_title, vid_comments, tags):
     messages = [ {"role": "system", "content":  
-                "You are a intelligent assistant that gives me a description for youtube videos."} ] 
+                "You are a intelligent assistant that gives me a reaction of less than 100 characters "
+                + "for a youtube video basing yourself heavily on the comments provided (it can be very similar)."
+                + "Don't overdue your reaction it has to sound real like a human."
+                } ] 
 
     messages.append( 
         {
             "role": "user", 
             "content": 
-                "In one phrase, knowing that the title of the video is: '" 
+                "Knowing that the title of the video is: '" 
                 + vid_title 
                 + "', the comments are: '" 
                 + vid_comments 
                 + "' and the tags are: '"
-                + tags
-                + "', give me a description for my video."
-                + "Make sure the description contains a lot of trendy words that could"
-                + " make my video recommended to a lot of different people."
-                + "You have to include the word 'trend' somewhere in the description."
-                + "Just give me the description and nothing else."
-                + "Don't start by 'Get ready to' this kind of first sentence is annoying."
+                + tags + "'."
                 + "Speak at the first person, speaking about your impression."
-                + "The description should not be more than 200 characters." 
+                + "The video is not YOURS."
         }, 
     )
     print("User request: " + messages[len(messages)-1]["content"])
