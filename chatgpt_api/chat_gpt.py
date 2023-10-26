@@ -27,7 +27,7 @@ def get_trend_keyword():
     
     return reply
 
-def get_impression_and_title(vid_title, vid_comments, vid_duration):
+def get_impression(vid_title, vid_comments, vid_duration = 0):
     # takes 3 seconds of every 5 seconds increments in the video
     # max_impression_duration = vid_duration - (1 * vid_duration // 3)
     # print("max_impression_duration: ", max_impression_duration)
@@ -60,12 +60,18 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
     impression = chat.choices[0].message.content 
     print(f"ChatGPT impression: {impression}")
 
+    return impression
+
+def get_title(txt_about_vid):
+    messages = [ {"role": "system", "content":  
+                "You are a intelligent assistant that creates short titles for tiktok videos."} ]
+
     messages.append( 
         {
             "role": "user", 
             "content": 
-                "In one short phrase, knowing that the impression of the video is: '"
-                + impression
+                "In one short phrase, knowing that the video is related to this content: '"
+                + txt_about_vid
                 + "' give me a short title for the video."
                 + "The tite should NOT BE more than 5 words. It should be a sentence."
                 + "Do not put the character ':' in the answer."
@@ -83,7 +89,7 @@ def get_impression_and_title(vid_title, vid_comments, vid_duration):
     vid_title = chat.choices[0].message.content 
     print(f"ChatGPT new title for vid: {vid_title}")
 
-    return impression, vid_title
+    return vid_title
 
 
 def get_vid_tags(vid_title, vid_impression, vid_comments):

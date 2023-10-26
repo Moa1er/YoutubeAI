@@ -12,7 +12,7 @@ def extract_first_frame(video_path):
     return output_image_path
 
 def extract_last_frame(video_path):
-    output_image_path = "assets_produced/last_thumbnail.jpg"
+    output_image_path = "assets_produced/tiktok_react/last_thumbnail.jpg"
 
     vidcap = cv2.VideoCapture(video_path)
     

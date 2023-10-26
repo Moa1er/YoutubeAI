@@ -26,7 +26,7 @@ def get_word_timestamp(audio_filename):
     results = []
     # recognize speech using vosk model
     while True:
-        data = wf.readframes(4000)
+        data = wf.readframes(200000000)
         if len(data) == 0:
             break
         if rec.AcceptWaveform(data):
@@ -42,7 +42,9 @@ def get_word_timestamp(audio_filename):
     for i in range(0, len(results[0]["result"])):
         start_time = results[0]["result"][i]["start"]
         end_time = results[0]["result"][i]["end"]
-        wordlist__with_timestamp.append((start_time, end_time))    
+        wordlist__with_timestamp.append((start_time, end_time))
+
+    print(results[0]["text"]) 
 
     return verify_timestamps(wordlist__with_timestamp, get_audio_duration(audio_path))
     

@@ -201,7 +201,7 @@ def does_video_have_human_voice(vid_file_path):
 def get_audio_from_video(video_file, video_audio_name): 
     """Converts video to audio directly using `ffmpeg` command
     with the help of subprocess module"""
-    subprocess.call(["ffmpeg", "-y", "-i", video_file, video_audio_name], 
+    subprocess.call(["ffmpeg", "-y", "-i", video_file, video_audio_name],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.STDOUT)
     

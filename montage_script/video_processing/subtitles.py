@@ -4,7 +4,7 @@ from montage_script.audio_processing.tools import get_word_timestamp
 import re
 import random
 
-def add_impression_txt(vid_path, aud_path, text):
+def add_impression_txt(vid_path, aud_path, text, output_path):
     # get the timestamps of each word in the aud_impression_file
     word_timestamps = get_word_timestamp(aud_path)
 
@@ -13,10 +13,15 @@ def add_impression_txt(vid_path, aud_path, text):
     if nb_cut_vid_todo != 0:
         impr_txt_divided = split_string(text, nb_cut_vid_todo)
 
-    return run_text_command(vid_path, create_command_filters(create_word_timings(impr_txt_divided, word_timestamps)))
+    return run_text_command(
+        vid_path, 
+        create_command_filters(create_word_timings(impr_txt_divided, word_timestamps)),
+        output_path
+    )
 
 
 def create_word_timings(text, word_timestamps):
+    print("len(word_timestamps): ",  len(word_timestamps))
     #format of text is :
     # [(("this is a long very long string"), 7), (("this is another long very long string haha"), 8)]
     word_timings = []
@@ -62,10 +67,9 @@ def create_command_filters(word_timings):
     return filters
 
 
-def run_text_command(video_path, filters):
+def run_text_command(video_path, filters, output_path):
     filter_complex = ','.join(filters)
 
-    output_path = video_path.split(".")[0] + "_text_final.mp4"
     command = [
         "ffmpeg", 
         "-y", 

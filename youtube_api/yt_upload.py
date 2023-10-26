@@ -32,7 +32,7 @@ def add_vid_to_yt(
         privacy_status, 
         file_to_upload_path, 
         playlist_id, 
-        thumbnail_path
+        thumbnail_path = None
         ):
     credentials = None
 
@@ -69,8 +69,9 @@ def add_vid_to_yt(
     vid_id = upload_vid(youtube, category_id, description, title, tags, privacy_status, file_to_upload_path)
     # make video in playlist
     add_vid_to_playlist(youtube, vid_id, playlist_id)
-    # gives it a thumbnail
-    add_thumbnail(youtube, vid_id, thumbnail_path)
+    if thumbnail_path != None:
+        # gives it a thumbnail
+        add_thumbnail(youtube, vid_id, thumbnail_path)
     
 
 
