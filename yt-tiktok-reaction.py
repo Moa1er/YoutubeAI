@@ -10,6 +10,7 @@ from montage_script.audio_processing.tools import *
 import re
 from thumbnail_creation.thumbnail import *
 from web_scrapping.selenium.tiktok_scraper import *
+from other_scripts.tools import *
 import time
 
 
@@ -20,19 +21,31 @@ ASSETS_FOLDER = "assets_produced/tiktok_react/"
 NB_VID_TO_RETURN = 5
 def main():
     # VARIABLE FOR TESTS, TO REMOVE
-    # impression = "I miss you so much, it hurts."
-    # impression_cleaned = impression.replace(",", " ")
-    # impression_cleaned = impression_cleaned
-    # vid_comments = "I've reached bed time tiktok..My boy was ready to start before the song was lol.Jim from Royal Family.So we’re all just awake right now?.Goooo bro.My Boy’s got moves 💙.@archie you Friday this.Best one so far..@yas x for jords.@kianna my dancing be like 😂.beautiful.Best video ever so much 🙏.@Lisa.Nukk best one.Awesome T!!!.Easy now.best one I've seen so far.pure magic.Cracked me up!! You are too funny..Ayyyy bro hit this bih 🔥.@S I E N N A 🤍 bgt here we come 😂.haha you're awesome.😂😂😂 love it.you are so cute,keep up the dancing.@Logan? @On top-_- marko.Nailed it.@SB♥️its hashee.Best one I seen so far 😭.wow amazing nice job sir.lesssssgooooooo.best thing ever!!!.U got that rizz m8.@A.1 gonna be your son lad.let's go through the front door and far away.Killed it brother!.nice moves!.dance better than me bro keep it up🤜.🔥🔥🔥 You got them moves!!! 😎.@izzy🫶🏼 what a guy.Hell yeah brother.he smooth with it tho😂.You are amazing!!.he looks like jacksepticeye.@Niall Murphy practising ya moves for tomorrow.Well played!!.Why he look like jim our of the royal family tv show 😂 looking good pal ✌🏼.@Bleona I’m stalking ur reposts r u ok ???.Good job! Keep dancing 😁.@lior 🤷 cute.@Rayna :) @Jaan Khan he kinda looks like behrend.Unspoken rizz"
-    # new_vid_title = "Wig snatch prank, this guy dared wow..."
-    # artefacts_file_name = "follow_2023-10-26"
+    # trend_keyword = "cuteness"
+    # impression = "I can't resist the adorable and shiny tongue of this cute bunny! 🐰💖"
+    # impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "")
+    # emoji_pattern = re.compile("["
+    #     u"\U0001F600-\U0001F64F"  # emoticons
+    #     u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+    #     u"\U0001F680-\U0001F6FF"  # transport & map symbols
+    #     u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+    # "]+", flags=re.UNICODE)
+    # impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
+
+    # print("impression_cleaned: ", impression_cleaned)
+    # vid_comments = "i thought it was capybara.I’m not hearing anyone out.THE TOUNG ITS SO SHINY AND CUTE.NAH THEIR TOUNGES😭😭😭.🥺🥺🥰🥰.hear me out.beautiful dude nice beautiful.i miss jan.BUNNYYYYYY.Ok hear me out.🥺🥺.@anushabdirahmaan6 carab qurxana.HIS TOUNGE OMG.my mom just sent me this vid thanks mom.@cate we lapon.Give it yellow dragon fruit @ella.@Summer 🫶🏻🤍 it’s tounge is so cuteee.why do i find this funny.I WANT ONEEE.Ayo what we’re u doing w that water 🤨📸.🥺🥺.AWWWW STOP PLZ IM DYING OF CUTENESS.very cute 💝.I got one to.I want oneee.THE TOUNG I CANT IM IN LOVE.sow pretty 🥰.Omgg mbbb.🥰🥺.🥰🥰.hear me out.I really want one omg.no way somebody said „hear me out“💀.oh my i want one so bad.when your days been tough watch this 😍🥰❤️.Vil have den @Sofeaaaaa.и жаныммм суйкымдысынайй😭😭💔.CUTE ASF.@jerzel eatwell!!.me waiting for the cooking part💀.Bro that’s extremely cute🥰.And then 🦅.where's the cooking the rabbit part.The tung part was a little weird but we good🥰.BRO THE TOUNGE IS KINDA CUTE THO.It looks so cute especially when it was drinking water💖💗💓💞🙈"
+    # joined_comments = vid_comments
+    # new_vid_title = "Can you handle this tongue? 😍 #Shorts"
+    # new_vid_title = new_vid_title.replace('"', "")
+    # artefacts_file_name = trend_keyword + "_2023-10-28" 
     # final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
     # video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
     # impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
-    # description = "Discover the heartwarming moments of #Shorts as talented creators @BellaGonterman, @SawyerMoss, @AdaleLouallen, and many others express who they miss the most. This trending video is a must-watch, filled with emotion and relatable moments that will make you reach for the tissues. Don't miss out on this touching and relatable content. #TrendAlert"
-    # tags = ['#WigSnatch', '#PrankMadness', '#FunnyAsf', '#FacialExpressions', '#PureFoolery', '#HotdogDance', '#GoofyCouple', '#UnexpectedMoment', '#FlexingWig', '#SmoothTransition', '#ZeddyFunny', '#DuckandCover', '#CarriedAway', '#FreshPrinceVibes', '#CrazyPrank', '#HilariousandChaotic', '#RugbyWrestlingType', '#TooRoughForMe', '#HilariousVideo', '#SurprisingSnatch']
-    # tags = tag_too_long(tags)
-    # category_id = "22"
+    # description = "Wow, this hairline is so unique and creative! 😮 #amazed"
+    # tags = ['#ReadyToBeAmazed', '#DojaCat', '#UniqueHairstyle', '#EyeCatching', '#BritneySpearsVibes', '#Satire', '#Idol', '#WildHair', '#MosesPartingTheSea', '#MiddlePart', '#HairGrowth', '#AvatarVibes', '#HeadacheRelief', '#BlondHair', '#PurposeOfLife', '#HairlineGoals', '#LaughOutOfSurprise', '#InvisiblePart', '#DIYHaircut', '#TrustTheProcess']
+    # category_id = "24"
+    # thumbnail_path = ASSETS_FOLDER + "last_thumbnail.jpg"
+    # joined_comment = "Doja cat?.She’s back.me when he leaves me on delivered.Youre my idol.OH MY GOSH?!.oooohhh woaaahhhhhh.it’s giving britney spears.so concrete 🎀🎀.this is actually satire.silly willy billy.Ur wildinnn😭.when moses parted the sea.Now THAT’S a middle part.The way it’s not even in center.like why?😭.avatar vibes ⬆️.Me tryna get rid of my headache.I watched this 4 times thinking there was gonna be some type of oil to make it grow faster and better.Me tryna get my middle part straight.now what are we achieving from this.But why?.avatar.how I look when my blond hair grows back.I don't know what the purpose of my stay on planet Earth is. 😃.WHY WHHHHHHYYYY!!???.@<3 @Ne… @Jael_13 @EMILIA 🧿 unmmm.so freaking cute i might even do it on myself🤭🤭.Just why? 😅.Cute hair line 💗.@piper my heart.I STARTED TO LAUGH SO HARD AT THIS.it's not in the middle.but why 😭.@Insanest Yuriko's lover @fishu tặng.@lillian ┆彡 my hair line in the future.@Lucy Bijou Schurr bro.who did this cover???.but WHY.No centered.Love your hair line girly pop…”.Erm..My boy got lined up🔥🔥.Is this what they call an invisible part 🥴.@user192680743 u the next time u cut ur own hair 😍🥰😍🥰😍.@ur mom do this.@ashka_m do this it will look good trust.@😘 @danielaxxz @😍 lowkey wanna do this.BRO NO ONE CAN SAY SHE DOES NOT HAVE A MIDDLE PART 😭.that part!.@ruth🎧 you"
 
     # ##############################################################
     # ## START SCRIPT
@@ -42,7 +55,7 @@ def main():
     # trend_keyword = get_trend_keyword()
 
     # those keyword are extracted with chatgpt-4 + bing
-    list_trend_keywords = ['tiktok', 'love', 'like', 'follow', 'explore', '2023', 'meme', 'video', 'duet', 'repost', 'tiktokchallenge', 'new', 'tiktokfamous', 'tiktoktrend', 'viralvideos', 'viralpost', 'blackgirlfollowtrend', 'relatable', 'slowmo', 'behindthescenes', 'dadsoftiktok', 'momsoftiktok', 'family', 'reallifeathome', 'tiktokmademebuyit', 'mexico', 'challenge', 'youtube', 'youtuber', 'artistsoftiktok', 'foryoupage', 'fyp', 'foryou', 'viral', 'funny', 'memes', 'followme', 'cute', 'fun', 'music', 'happy', 'fashion', 'comedy', 'bestvideo', 'tiktok4fun', 'thisis4u', 'loveyoutiktok', 'cutebaby', 'cutegirl', 'pregnantlife', 'cuteness', 'cuteboy']
+    list_trend_keywords = ['tiktok', 'love', 'like', 'follow', 'explore', '2023', 'meme', 'video', 'duet', 'repost', 'tiktokchallenge', 'new', 'tiktokfamous', 'tiktoktrend', 'viralvideos', 'viralpost', 'blackgirlfollowtrend', 'relatable', 'slowmo', 'behindthescenes', 'dadsoftiktok', 'momsoftiktok', 'family', 'reallifeathome', 'tiktokmademebuyit', 'mexico', 'challenge', 'youtube', 'youtuber', 'artistsoftiktok', 'foryoupage', 'fyp', 'foryou', 'viral', 'funny', 'memes', 'followme', 'cute', 'fun', 'happy', 'fashion', 'comedy', 'bestvideo', 'tiktok4fun', 'thisis4u', 'loveyoutiktok', 'cutebaby', 'cutegirl', 'pregnantlife', 'cuteness', 'cuteboy']
     trend_keyword = random.choice(list_trend_keywords)
     # print("Trend_keyword is: " + trend_keyword)
 
@@ -65,20 +78,16 @@ def main():
     print("Vod URL: " + vid_url)
     print("Vid id: " + aweme_id)
 
-    # gets the last frame of the video for the thumbnail
-    thumbnail_path = extract_last_frame(video_file_path)
-
     # gets comments from tiktok video
     vid_comments = get_vod_comments(aweme_id, NB_COMMENTS_TO_GET)
     print("Nb of comments: " + str(len(vid_comments)))
 
     # gets impression text
     impression = get_impression(
-        vid_title, ".".join(vid_comments), 
-        get_vid_duration(video_file_path)
+        vid_title, ".".join(vid_comments)
     )
     new_vid_title = get_title(impression)
-    new_vid_title += " #Shorts"
+    new_vid_title += " #shorts"
     print("impression: " + impression)
     print("new_vid_title: " + new_vid_title)
 
@@ -86,7 +95,7 @@ def main():
     impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
     text_to_speech(impression, impression_file_path)
     # because the sofware doesn't like commas
-    impression_cleaned = impression.replace(",", " ").replace(".", " ")
+    impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "")
     # removal of '"' in the title bc it sucks and chat gpt gives it everytime
     new_vid_title = new_vid_title.replace('"', "")
 
@@ -108,13 +117,14 @@ def main():
     )
     
     # gets tag + category_id + description for the video
-    joined_comment = ".".join(vid_comments)
-    tags = get_vid_tags(new_vid_title, impression, joined_comment)
+    joined_comments = ".".join(vid_comments)
+    tags = get_vid_tags(new_vid_title, impression, joined_comments)
     print("tags: ", tags)
-    category_id = get_category_id(new_vid_title, impression, joined_comment)
-    print("category_id: ", category_id)
-    description = get_description(new_vid_title, joined_comment, " ".join(tags))
-    print("description: ", description)
+    category_id = get_category_id(new_vid_title, impression, joined_comments)
+    description = get_description(new_vid_title, joined_comments, " ".join(tags))
+
+    # gets the last frame of the video for the thumbnail
+    thumbnail_path = extract_last_frame(final_vid_file_path, ASSETS_FOLDER + trend_keyword + "_last_thumbnail.jpg")
 
     # uploads to youtube and adds to playlist
     # id playlist reaction : PLpoAErUqpB6cdPK-rxiFItyLQ0CN-v2sZ
@@ -130,12 +140,15 @@ def main():
         thumbnail_path
     )
 
+    # REMOVES ALL TMP FILES
+    remove_files_starting_with(ASSETS_FOLDER, "tmp_" + artefacts_file_name)
+
     # uploads to tiktok
     upload_tiktok_vid(new_vid_title, tags, final_vid_file_path)
 
 if __name__ == '__main__':
-    try:
+    # try:
         main()
-    except Exception as e:
-        send_telegram_message("PROGRAM CRASHED:")
-        send_telegram_message(str(e))
+    # except Exception as e:
+    #     send_telegram_message("PROGRAM CRASHED:")
+    #     send_telegram_message(str(e))

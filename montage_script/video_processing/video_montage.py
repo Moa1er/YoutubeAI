@@ -15,8 +15,6 @@ def create_blurred_vid(vid_file_path, audio_duration):
     if audio_duration > blurred_vid_duration:
         make_blurred_vid_longer(blurred_vid_path, blurred_vid_duration, audio_duration, output_path)
     else:
-        # print("blurred_vid_path: ", blurred_vid_path)
-        # print("output_path: ", output_path)
         # we add 1 seconde so that it doesn't cut too fast
         cut_excess_video(blurred_vid_path, 0, audio_duration, output_path)
     return output_path
@@ -33,27 +31,6 @@ def make_blurred_vid_longer(vid_path, vid_duration, aud_duration, output_path):
     if rest_duration != 0:
         merge_vid([tmp_merged_vid_filename, cutted_vid_filename], output_path)
     
-
-def alternative_merge_vid(vid_clip_paths, output_path):
-    # Construct ffmpeg command with dynamic input files
-    inputs = []
-    filters = []
-    
-    for idx, file in enumerate(vid_clip_paths):
-        inputs.extend(["-i", file])
-        filters.extend([f"[{idx}:v]", f"[{idx}:a]"])
-    
-    filter_complex = f"{' '.join(filters)} concat=n={len(vid_clip_paths)}:v=1:a=1 [v] [a]"
-    
-    command = ["ffmpeg"] + ["-loglevel"] + ["quiet"] + ["-y"] + inputs + ["-filter_complex", filter_complex, "-map", "[v]", "-map", "[a]", output_path]
-    
-    # Execute the command
-    result = subprocess.run(command)
-    
-    if result.returncode == 0:
-        print("Videos merged successfully!")
-    else:
-        print("Failed to merge videos!")
 
 def mute_video_at_interval(video_path, start_time, end_time):
     # print("start_time: ", start_time)

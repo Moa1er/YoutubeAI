@@ -11,9 +11,7 @@ def extract_first_frame(video_path):
 
     return output_image_path
 
-def extract_last_frame(video_path):
-    output_image_path = "assets_produced/tiktok_react/last_thumbnail.jpg"
-
+def extract_last_frame(video_path, output_image_path):
     vidcap = cv2.VideoCapture(video_path)
     
     # Find the total frame count
@@ -25,6 +23,8 @@ def extract_last_frame(video_path):
     success, image = vidcap.read()
     if success:
         cv2.imwrite(output_image_path, image)
+    else:
+        print("Error while reading video")
     
     return output_image_path
     

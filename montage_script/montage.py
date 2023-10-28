@@ -32,9 +32,7 @@ def tiktok_react_montage(original_vid_path, impr_audio_file_path, final_vid_file
 
     # MERGES BOTH VIDEOS TOGETHER
     merge_vid([impression_blurred_text_sound_fixed_vid_path, syncronized_vid_path_cutted], final_vid_file_path)
-    
-    # REMOVES ALL TMP FILES
-    # remove_files_starting_with(original_vid_path.split(".")[0] + '_')
+
 
 def funny_story_montage(vids_paths, impr_audio_file_path, final_vid_file_path, impression_txt):
     # #make final long video
@@ -79,10 +77,3 @@ def montage_aud_vid(aud_path, vid_path, output_path):
 
     return output_path
 
-
-def remove_files_starting_with(dir_and_prefix):
-    dir_and_prefix = dir_and_prefix.split("/")
-    for filename in os.listdir(dir_and_prefix[0]):
-        if filename.startswith(dir_and_prefix[1]):
-            filepath = os.path.join(dir_and_prefix[0], filename)
-            os.remove(filepath)
