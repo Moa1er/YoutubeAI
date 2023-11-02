@@ -56,8 +56,13 @@ def get_description(vid_title, vid_comments, tags):
     return call_api_handle_timeout(messages)
 
 def get_trend_keyword():
-    messages = [ {"role": "system", "content":  
-                "You are a intelligent assistant that creates impression on tiktok videos."} ] 
+    messages = [ 
+        {
+            "role": "system", 
+            "content":  
+                "You are a intelligent assistant that creates keyword that trends on tiktok."
+        }
+    ] 
 
     messages.append( 
         {
@@ -74,7 +79,8 @@ def get_trend_keyword():
 
 def get_impression(vid_title, vid_comments):
     messages = [ {"role": "system", "content":  
-                "You are a intelligent assistant that creates impression on tiktok videos."} ] 
+                "You are a intelligent assistant that creates impression on tiktok videos." + 
+                "The impression should be maximum 2 sentences but it can also be just 1 sentence."} ] 
 
     messages.append( 
         {
@@ -86,7 +92,6 @@ def get_impression(vid_title, vid_comments):
                 + vid_comments 
                 + "' give me an impression of the video."
                 + "Give me only the impression and nothing else."
-                + "The impression should be maximum 12 words."
                 + "Speak at the first person not like everyone agrees with you."
         }, 
     )

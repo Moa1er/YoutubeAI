@@ -21,9 +21,9 @@ ASSETS_FOLDER = "assets_produced/tiktok_react/"
 NB_VID_TO_RETURN = 5
 def main():
     # VARIABLE FOR TESTS, TO REMOVE
-    # trend_keyword = "cuteness"
-    # impression = "I can't resist the adorable and shiny tongue of this cute bunny! 🐰💖"
-    # impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "")
+    # trend_keyword = "like"
+    # impression = "WATCHING THIS VIDEO MAKES ME FEEL HOPEFUL FOR THE KIND OF LOVE I WANT TO EXPERIENCE ONE DAY."
+    # impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "").upper()
     # emoji_pattern = re.compile("["
     #     u"\U0001F600-\U0001F64F"  # emoticons
     #     u"\U0001F300-\U0001F5FF"  # symbols & pictographs
@@ -32,12 +32,12 @@ def main():
     # "]+", flags=re.UNICODE)
     # impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
 
-    # print("impression_cleaned: ", impression_cleaned)
-    # vid_comments = "i thought it was capybara.I’m not hearing anyone out.THE TOUNG ITS SO SHINY AND CUTE.NAH THEIR TOUNGES😭😭😭.🥺🥺🥰🥰.hear me out.beautiful dude nice beautiful.i miss jan.BUNNYYYYYY.Ok hear me out.🥺🥺.@anushabdirahmaan6 carab qurxana.HIS TOUNGE OMG.my mom just sent me this vid thanks mom.@cate we lapon.Give it yellow dragon fruit @ella.@Summer 🫶🏻🤍 it’s tounge is so cuteee.why do i find this funny.I WANT ONEEE.Ayo what we’re u doing w that water 🤨📸.🥺🥺.AWWWW STOP PLZ IM DYING OF CUTENESS.very cute 💝.I got one to.I want oneee.THE TOUNG I CANT IM IN LOVE.sow pretty 🥰.Omgg mbbb.🥰🥺.🥰🥰.hear me out.I really want one omg.no way somebody said „hear me out“💀.oh my i want one so bad.when your days been tough watch this 😍🥰❤️.Vil have den @Sofeaaaaa.и жаныммм суйкымдысынайй😭😭💔.CUTE ASF.@jerzel eatwell!!.me waiting for the cooking part💀.Bro that’s extremely cute🥰.And then 🦅.where's the cooking the rabbit part.The tung part was a little weird but we good🥰.BRO THE TOUNGE IS KINDA CUTE THO.It looks so cute especially when it was drinking water💖💗💓💞🙈"
+    # # print("impression_cleaned: ", impression_cleaned)
+    # vid_comments = "0 gang here 👇.Cute (Never experienced this in my life and I have a feeling I won’t.).thanks for reminding me that i'll never find a female..:POV me and my pillow doing all those positions thinking wait when am I gonna get a girl???.knowing ill never experience this is sad.i just want a hug.Litarally any.here.3 and 5.3.@Jason Jay what one should we try.@X_Dreamcorelol_X what do u like?.1.I Like 3 in my opinion.6.3.thank u for reminding me i get no girls.6.@QWILZY 🫠😍 meltinggggg x.@A_workman2100 all?.@mia pick which ones.I just searched luh calm fir.1 and 2 is elite (I'm single and crying).That would never happen to me😭.2.Hi ❤️❤️❤️Nlie ❤️❤️❤️❤️.3 and 6.3,4,6❤.tryna nvm😂💘💗.3.This will never happen to me ☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️☠️💀💀☠️☠️.4.@will what one.@real which one??.7 my own side and own space 😳.5 fr gonna lead to smth crazy bro.i like number 6.@Noah Pillsbury 4 or 6😍.6😏.@Coopdawg pleaseeeeeee.2, & 6.4,6.7 gang here👇 im singel.@Lilly🤍🫶🏼 yes 😍❤️which oneeeee.someone says 5.1.is 0 an option.7.1.@Noa ꨄ yesss"
     # joined_comments = vid_comments
-    # new_vid_title = "Can you handle this tongue? 😍 #Shorts"
+    # new_vid_title = "Will you find true love? #shorts"
     # new_vid_title = new_vid_title.replace('"', "")
-    # artefacts_file_name = trend_keyword + "_2023-10-28" 
+    # artefacts_file_name = trend_keyword + "_2023-11-02" 
     # final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
     # video_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp4"
     # impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
@@ -45,13 +45,21 @@ def main():
     # tags = ['#ReadyToBeAmazed', '#DojaCat', '#UniqueHairstyle', '#EyeCatching', '#BritneySpearsVibes', '#Satire', '#Idol', '#WildHair', '#MosesPartingTheSea', '#MiddlePart', '#HairGrowth', '#AvatarVibes', '#HeadacheRelief', '#BlondHair', '#PurposeOfLife', '#HairlineGoals', '#LaughOutOfSurprise', '#InvisiblePart', '#DIYHaircut', '#TrustTheProcess']
     # category_id = "24"
     # thumbnail_path = ASSETS_FOLDER + "last_thumbnail.jpg"
-    # joined_comment = "Doja cat?.She’s back.me when he leaves me on delivered.Youre my idol.OH MY GOSH?!.oooohhh woaaahhhhhh.it’s giving britney spears.so concrete 🎀🎀.this is actually satire.silly willy billy.Ur wildinnn😭.when moses parted the sea.Now THAT’S a middle part.The way it’s not even in center.like why?😭.avatar vibes ⬆️.Me tryna get rid of my headache.I watched this 4 times thinking there was gonna be some type of oil to make it grow faster and better.Me tryna get my middle part straight.now what are we achieving from this.But why?.avatar.how I look when my blond hair grows back.I don't know what the purpose of my stay on planet Earth is. 😃.WHY WHHHHHHYYYY!!???.@<3 @Ne… @Jael_13 @EMILIA 🧿 unmmm.so freaking cute i might even do it on myself🤭🤭.Just why? 😅.Cute hair line 💗.@piper my heart.I STARTED TO LAUGH SO HARD AT THIS.it's not in the middle.but why 😭.@Insanest Yuriko's lover @fishu tặng.@lillian ┆彡 my hair line in the future.@Lucy Bijou Schurr bro.who did this cover???.but WHY.No centered.Love your hair line girly pop…”.Erm..My boy got lined up🔥🔥.Is this what they call an invisible part 🥴.@user192680743 u the next time u cut ur own hair 😍🥰😍🥰😍.@ur mom do this.@ashka_m do this it will look good trust.@😘 @danielaxxz @😍 lowkey wanna do this.BRO NO ONE CAN SAY SHE DOES NOT HAVE A MIDDLE PART 😭.that part!.@ruth🎧 you"
 
+    
+    # TO TEST IMPRESSION TEXT   
+    # blurred_vid_path = "assets_produced/tiktok_react/tmp_like_2023-11-02.mp4"
+    # impression_txt = impression_cleaned
+    # impression_blurred_text_vid_path = "assets_produced/tiktok_react/like_2023-11-02_testing.mp4"
+    # impr_audio_file_path = "assets_produced/tiktok_react/tmp_like_2023-11-02.mp3"
+    # # text_to_speech(impression_txt, impr_audio_file_path)
+    # add_impression_txt(blurred_vid_path, impr_audio_file_path, impression_txt, impression_blurred_text_vid_path)
+    
     # ##############################################################
     # ## START SCRIPT
     # ##############################################################
     
-    # chat gpt get trend but always the same so nope
+    # # chat gpt get trend but always the same so nope
     # trend_keyword = get_trend_keyword()
 
     # those keyword are extracted with chatgpt-4 + bing
@@ -83,9 +91,8 @@ def main():
     print("Nb of comments: " + str(len(vid_comments)))
 
     # gets impression text
-    impression = get_impression(
-        vid_title, ".".join(vid_comments)
-    )
+    # removes the "-" bc it fucks it the ui for the words later
+    impression = get_impression(vid_title, ".".join(vid_comments))
     new_vid_title = get_title(impression)
     new_vid_title += " #shorts"
     print("impression: " + impression)
@@ -94,10 +101,10 @@ def main():
     # gets second artefact "trend_keyword_tmp_date.mp3"
     impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
     text_to_speech(impression, impression_file_path)
-    # because the sofware doesn't like commas
-    impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "")
     # removal of '"' in the title bc it sucks and chat gpt gives it everytime
     new_vid_title = new_vid_title.replace('"', "")
+    # because the sofware doesn't like commas
+    impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "").replace("-", " ").upper()
 
     # remoing of emoji bc cannot show them on the video
     emoji_pattern = re.compile("["
@@ -108,6 +115,31 @@ def main():
     "]+", flags=re.UNICODE)
     impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
 
+
+        # gets tag + category_id + description for the video
+    joined_comments = ".".join(vid_comments)
+    tags = get_vid_tags(new_vid_title, impression, joined_comments)
+    print("tags: ", tags)
+    category_id = get_category_id(new_vid_title, impression, joined_comments)
+    description = get_description(new_vid_title, joined_comments, " ".join(tags))
+
+    # saves every info like the title, the impression, the tags, the category_id and the description
+    # useful for debug but also when crashing
+    # does this before the video montage bc this is usually what crashes
+    save_info(
+        vid_title,
+        vid_url,
+        aweme_id,
+        impression, 
+        impression_cleaned, 
+        new_vid_title,
+        joined_comments,
+        tags,
+        category_id, 
+        description,
+        ASSETS_FOLDER + artefacts_file_name + "_info.txt"
+    )
+
     final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
     tiktok_react_montage(
         video_file_path, 
@@ -115,16 +147,9 @@ def main():
         final_vid_file_path, 
         impression_cleaned
     )
-    
-    # gets tag + category_id + description for the video
-    joined_comments = ".".join(vid_comments)
-    tags = get_vid_tags(new_vid_title, impression, joined_comments)
-    print("tags: ", tags)
-    category_id = get_category_id(new_vid_title, impression, joined_comments)
-    description = get_description(new_vid_title, joined_comments, " ".join(tags))
 
     # gets the last frame of the video for the thumbnail
-    thumbnail_path = extract_last_frame(final_vid_file_path, ASSETS_FOLDER + trend_keyword + "_last_thumbnail.jpg")
+    thumbnail_path = extract_last_frame(final_vid_file_path, ASSETS_FOLDER + "tmp_" + trend_keyword + "_last_thumbnail.jpg")
 
     # uploads to youtube and adds to playlist
     # id playlist reaction : PLpoAErUqpB6cdPK-rxiFItyLQ0CN-v2sZ

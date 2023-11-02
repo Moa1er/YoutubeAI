@@ -21,7 +21,11 @@ def add_impression_txt(vid_path, aud_path, text, output_path):
 
 
 def create_word_timings(text, word_timestamps):
-    print("len(word_timestamps): ",  len(word_timestamps))
+    if(len(word_timestamps) < len(text[0][0].split())):
+        print("len(word_timestamps): ",  len(word_timestamps))
+        print("word_timestamps: ", word_timestamps)
+        print("len(text[0][0].split()): ", len(text[0][0].split()))
+        print("text: ", text)
     #format of text is :
     # [(("this is a long very long string"), 7), (("this is another long very long string haha"), 8)]
     word_timings = []
@@ -41,6 +45,20 @@ def create_word_timings(text, word_timestamps):
             # used to make the text centered
             ttd_words = split_str_one_space(text_to_display_part[j])
             for k in range(0, len(ttd_words)):
+                if(idx_pos_text >= len(word_timestamps)):
+                    print("ERROR WATCH THIS")
+                    print("idx_pos_text: ", idx_pos_text)
+                    print("len(word_timestamps): ", len(word_timestamps))
+                    print("word_timestamps: ", word_timestamps)
+                    print("text: ", text)
+                    print("text_to_display_part: ", text_to_display_part)
+                    print("ttd_words: ", ttd_words)
+                    print("len(ttd_words): ", len(ttd_words))
+                    print("k: ", k)
+                    print("len(ttd_words[k]): ", len(ttd_words[k]))
+                    print("ttd_words[k]: ", ttd_words[k])
+                    idx_pos_text += 1
+                    continue
                 # the function "split_str_one_space" introduces some empty string
                 # so if we find one we ignore it 
                 if(ttd_words[k] == ''):

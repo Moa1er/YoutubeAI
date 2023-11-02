@@ -44,7 +44,7 @@ def get_word_timestamp(audio_filename):
         end_time = results[0]["result"][i]["end"]
         wordlist__with_timestamp.append((start_time, end_time))
 
-    print(results[0]["text"]) 
+    print("Text extracted from audio: ", results[0]["text"]) 
 
     return verify_timestamps(wordlist__with_timestamp, get_audio_duration(audio_path))
     
