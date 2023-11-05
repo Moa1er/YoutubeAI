@@ -55,6 +55,11 @@ def main():
     # # text_to_speech(impression_txt, impr_audio_file_path)
     # add_impression_txt(blurred_vid_path, impr_audio_file_path, impression_txt, impression_blurred_text_vid_path)
     
+
+    # LINE TO LOAD THE ACTUAL VARIABLES:
+    # artefacts_file_name, video_file_path, impression_file_path,trend_keyword, vid_title, vid_url, aweme_id,impression, impression_cleaned, new_vid_title,tags, category_id, description, joined_comments = load_info(ASSETS_FOLDER + "repost_2023-11-05_info.txt")
+
+
     # ##############################################################
     # ## START SCRIPT
     # ##############################################################
@@ -127,6 +132,10 @@ def main():
     # useful for debug but also when crashing
     # does this before the video montage bc this is usually what crashes
     save_info(
+        artefacts_file_name,
+        video_file_path,
+        impression_file_path,
+        trend_keyword,
         vid_title,
         vid_url,
         aweme_id,

@@ -1,15 +1,11 @@
 import os
 import pickle
-from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.exceptions import RefreshError
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 from google.auth.transport.requests import Request
 from telegram_bot.telegram_bot import *
-import builtins
-import io
-from contextlib import redirect_stdout
-import sys
 from pyKey import sendSequence
 import threading
 import cursor
@@ -44,9 +40,13 @@ def add_vid_to_yt(
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
-    if credentials and credentials.expired and credentials.refresh_token:
-        credentials.refresh(Request())
-    elif not credentials or not credentials.valid:
+    try:
+        if credentials and credentials.expired and credentials.refresh_token:
+            credentials.refresh(Request())
+    except RefreshError:
+        credentials = None
+    
+    if not credentials or not credentials.valid:
         flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES, redirect_uri='urn:ietf:wg:oauth:2.0:oob')
         authorization_url, _ = flow.authorization_url()
         #sends auth url on my telegram
