@@ -6,7 +6,7 @@ from moviepy.editor import VideoFileClip, AudioFileClip # pip3 install moviepy
 
 from montage_script.audio_processing.audio_montage import get_audio_from_video
 from montage_script.audio_processing.tools import *
-from montage_script.video_processing.subtitles import add_impression_txt
+from montage_script.video_processing.subtitles import add_impression_txt, add_invisible_text
 from montage_script.video_processing.video_montage import create_blurred_vid, get_vid_duration, cut_excess_video, merge_vid, mute_video_at_interval
 
 
@@ -21,17 +21,22 @@ def tiktok_react_montage(original_vid_path, impr_audio_file_path, final_vid_file
     impression_blurred_text_sound_vid_path = impression_blurred_text_vid_path.split(".")[0] + "_with_sound.mp4"
     montage_aud_vid(impr_audio_file_path, impression_blurred_text_vid_path, impression_blurred_text_sound_vid_path)
     
-    # the video has some sound at the end of it and i don't know why so i mute the end (-0.3 bc we need it ok?)
+    # the video has some sound at the end of it and i don't know why so i mute the endz
     impression_blurred_text_sound_fixed_vid_path = mute_video_at_interval(impression_blurred_text_sound_vid_path, get_audio_duration_mp3(impr_audio_file_path), get_vid_duration(impression_blurred_text_sound_vid_path))
 
     # CREATE SECOND PART (RESYNCRONIZATION BC ORIGINAL IS FUCKED FOR SOME REASON)
     syncronized_vid_path = syncronize_original_vid(original_vid_path)
     syncronized_vid_path_cutted = syncronized_vid_path.split(".")[0] + "_cutted.mp4"
+
     # 0.4 is very random but it is very much working
     cut_excess_video(syncronized_vid_path, 0, get_vid_duration(syncronized_vid_path) - 0.4, syncronized_vid_path_cutted)
 
+    # add noise to the video to hope to not be shadow banned for unoriginal content ?
+    syncronized_vid_path_cutted_noisy = syncronized_vid_path_cutted.split(".")[0] + "_noisy.mp4"
+    add_invisible_text(syncronized_vid_path_cutted, syncronized_vid_path_cutted_noisy)
+
     # MERGES BOTH VIDEOS TOGETHER
-    merge_vid([impression_blurred_text_sound_fixed_vid_path, syncronized_vid_path_cutted], final_vid_file_path)
+    merge_vid([impression_blurred_text_sound_fixed_vid_path, syncronized_vid_path_cutted_noisy], final_vid_file_path)
 
 
 def funny_story_montage(vids_paths, impr_audio_file_path, final_vid_file_path, impression_txt):

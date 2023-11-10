@@ -1,4 +1,5 @@
 import os 
+import send2trash
 
 def read_firs_line_and_del(file_path):
     # Open the file and read all lines into a list
@@ -16,7 +17,7 @@ def remove_files_starting_with(dir, prefix):
     for filename in os.listdir(dir):
         if filename.startswith(prefix):
             filepath = os.path.join(dir, filename)
-            os.remove(filepath)
+            send2trash(filepath)
 
 def save_info(
         artefacts_file_name,

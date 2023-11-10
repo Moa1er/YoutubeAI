@@ -13,6 +13,7 @@ from web_scrapping.selenium.tiktok_scraper import *
 from other_scripts.tools import *
 import time
 import argparse
+from cleantext import clean
 
 
 NB_VOD_TO_COMP = "30"
@@ -26,7 +27,7 @@ args = parser.parse_args()
 
 def main():
     # VARIABLE FOR TESTS, TO REMOVE
-    trend_keyword = "like"
+    # trend_keyword = "like"
     # impression = "WATCHING THIS VIDEO MAKES ME FEEL HOPEFUL FOR THE KIND OF LOVE I WANT TO EXPERIENCE ONE DAY."
     # impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "").upper()
     # emoji_pattern = re.compile("["
@@ -62,7 +63,7 @@ def main():
     
 
     # LINE TO LOAD THE ACTUAL VARIABLES:
-    # info_file_name = "cuteness_2023-11-09_info.txt"
+    # info_file_name = "new_2023-11-10_info.txt"
     # artefacts_file_name, video_file_path,impression_file_path,trend_keyword, vid_title, vid_url, aweme_id,impression, impression_cleaned, new_vid_title,tags, category_id, description, joined_comments = load_info(ASSETS_FOLDER + info_file_name)
     # final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
     
@@ -110,14 +111,15 @@ def main():
     print("new_vid_title: " + new_vid_title)
 
     # removing of emoji bc cannot show them on the video and have it in audio
-    impression_cleaned = impression
     emoji_pattern = re.compile("["
         u"\U0001F600-\U0001F64F"  # emoticons
         u"\U0001F300-\U0001F5FF"  # symbols & pictographs
         u"\U0001F680-\U0001F6FF"  # transport & map symbols
         u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
     "]+", flags=re.UNICODE)
-    impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
+    impression_cleaned = emoji_pattern.sub(r'', impression)
+    # another library to remove every emoji bc the lines before don't seem to always work..
+    impression_cleaned = clean(impression_cleaned, no_emoji=True)
 
     # gets second artefact "trend_keyword_tmp_date.mp3"
     impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"

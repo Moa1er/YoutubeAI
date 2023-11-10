@@ -1,8 +1,31 @@
 import subprocess
 import math
 from montage_script.audio_processing.tools import get_word_timestamp
+from montage_script.video_processing.video_montage import get_vid_duration
 import re
 import random
+
+# this function add text outside the bound of the video to just change the
+# code of the video but have no effect for the viwer
+def add_invisible_text(vid_path, output_path):
+    return run_text_command(
+        vid_path, 
+        create_noise_filter(get_vid_duration(vid_path)),
+        output_path
+    )
+
+def create_noise_filter(vid_duration):
+    font_size = 1
+    font_file = "fonts/CONSOLAB.TTF"
+    w = "(w-text_w)"
+    h = "(h-text_h)"
+    filters = []
+    noise_text = "HELLO I HOPE YOU ARE DOING GOOD HOW DID YOU SEE THIS MESSAGE ?"
+    filter_string = f"drawtext=fontfile={font_file}:text='{noise_text}':x={w}:y={h}:fontsize={font_size}:fontcolor=white:enable='between(t,{0},{vid_duration})':borderw=3:bordercolor=black"
+    filters.append(filter_string)
+
+    return filters
+
 
 def add_impression_txt(vid_path, aud_path, text, output_path):
     # get the timestamps of each word in the aud_impression_file
