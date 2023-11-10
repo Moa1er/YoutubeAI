@@ -12,16 +12,21 @@ from thumbnail_creation.thumbnail import *
 from web_scrapping.selenium.tiktok_scraper import *
 from other_scripts.tools import *
 import time
-
+import argparse
 
 
 NB_VOD_TO_COMP = "30"
 NB_COMMENTS_TO_GET = "100"
 ASSETS_FOLDER = "assets_produced/tiktok_react/"
 NB_VID_TO_RETURN = 5
+
+parser = argparse.ArgumentParser(description="TikTalk_Creator")
+parser.add_argument("-r", "--repetition", type=int, help="The number of times the script should run, default is 1", required=False, default=1)
+args = parser.parse_args()
+
 def main():
     # VARIABLE FOR TESTS, TO REMOVE
-    # trend_keyword = "like"
+    trend_keyword = "like"
     # impression = "WATCHING THIS VIDEO MAKES ME FEEL HOPEFUL FOR THE KIND OF LOVE I WANT TO EXPERIENCE ONE DAY."
     # impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "").upper()
     # emoji_pattern = re.compile("["
@@ -57,9 +62,10 @@ def main():
     
 
     # LINE TO LOAD THE ACTUAL VARIABLES:
-    # artefacts_file_name, video_file_path, impression_file_path,trend_keyword, vid_title, vid_url, aweme_id,impression, impression_cleaned, new_vid_title,tags, category_id, description, joined_comments = load_info(ASSETS_FOLDER + "repost_2023-11-05_info.txt")
-
-
+    # info_file_name = "cuteness_2023-11-09_info.txt"
+    # artefacts_file_name, video_file_path,impression_file_path,trend_keyword, vid_title, vid_url, aweme_id,impression, impression_cleaned, new_vid_title,tags, category_id, description, joined_comments = load_info(ASSETS_FOLDER + info_file_name)
+    # final_vid_file_path = ASSETS_FOLDER + artefacts_file_name + ".mp4"
+    
     # ##############################################################
     # ## START SCRIPT
     # ##############################################################
@@ -103,15 +109,8 @@ def main():
     print("impression: " + impression)
     print("new_vid_title: " + new_vid_title)
 
-    # gets second artefact "trend_keyword_tmp_date.mp3"
-    impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
-    text_to_speech(impression, impression_file_path)
-    # removal of '"' in the title bc it sucks and chat gpt gives it everytime
-    new_vid_title = new_vid_title.replace('"', "")
-    # because the sofware doesn't like commas
-    impression_cleaned = impression.replace(",", " ").replace(".", " ").replace("'", "").replace("-", " ").upper()
-
-    # remoing of emoji bc cannot show them on the video
+    # removing of emoji bc cannot show them on the video and have it in audio
+    impression_cleaned = impression
     emoji_pattern = re.compile("["
         u"\U0001F600-\U0001F64F"  # emoticons
         u"\U0001F300-\U0001F5FF"  # symbols & pictographs
@@ -120,8 +119,16 @@ def main():
     "]+", flags=re.UNICODE)
     impression_cleaned = emoji_pattern.sub(r'', impression_cleaned)
 
+    # gets second artefact "trend_keyword_tmp_date.mp3"
+    impression_file_path = ASSETS_FOLDER + "tmp_" + artefacts_file_name + ".mp3"
+    text_to_speech(impression_cleaned, impression_file_path)
+    # removal of '"' in the title bc it sucks and chat gpt gives it everytime
+    new_vid_title = new_vid_title.replace('"', "")
+    # because the sofware doesn't like commas
+    impression_cleaned = impression_cleaned.replace(",", " ").replace(".", " ").replace("'", "").replace("-", " ").upper()
 
-        # gets tag + category_id + description for the video
+
+    # gets tag + category_id + description for the video
     joined_comments = ".".join(vid_comments)
     tags = get_vid_tags(new_vid_title, impression, joined_comments)
     print("tags: ", tags)
@@ -182,7 +189,8 @@ def main():
 
 if __name__ == '__main__':
     # try:
-        main()
+        for i in range(0, args.repetition):
+            main()
     # except Exception as e:
     #     send_telegram_message("PROGRAM CRASHED:")
     #     send_telegram_message(str(e))
