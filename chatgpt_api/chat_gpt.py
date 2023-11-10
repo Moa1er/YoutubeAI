@@ -78,31 +78,36 @@ def get_trend_keyword():
     return call_api_handle_timeout(messages)
 
 def get_impression(vid_title, vid_comments):
-    messages = [ {"role": "system", "content":  
-                "You are a intelligent assistant that creates impression on tiktok videos." + 
-                "The impression should be maximum 2 sentences but it can also be just 1 sentence."
-                + "Never mention that you are an Artificial Intelligence."} ] 
+    messages = [{
+        "role": "system", 
+        "content":  
+            "You are imitating a human that creates impression on tiktok videos." + 
+            "The impression should be maximum 2 sentences but it can also be just 1 sentence."
+            + "Never mention that you are an Artificial Intelligence."
+            + "Speak at the first person not like everyone agrees with you."
+    }]
 
-    messages.append( 
-        {
-            "role": "user", 
-            "content": 
-                "In one phrase, knowing that the title of the video is: '" 
-                + vid_title 
-                + "' and the comments are: '" 
-                + vid_comments 
-                + "' give me an impression of the video."
-                + "Give me only the impression and nothing else."
-                + "Speak at the first person not like everyone agrees with you."
-        }, 
-    )
+    messages.append( {
+        "role": "user", 
+        "content": 
+            "In one phrase, knowing that the title of the video is: '" 
+            + vid_title 
+            + "' and the comments are: '" 
+            + vid_comments 
+            + "' give me an impression of the video."
+            + "Give me only the impression and nothing else."
+    })
     print("User request: " + messages[len(messages)-1]["content"])
 
     return call_api_handle_timeout(messages)
 
 def get_title(txt_about_vid):
-    messages = [ {"role": "system", "content":  
-                "You are a intelligent assistant that creates short titles for tiktok videos. Never mention in the title that you are an Artificial Intelligence."} ]
+    messages = [{
+        "role": "system", 
+        "content":  
+            "You are a intelligent assistant that creates short titles for tiktok videos."
+            + "Never mention in the title that you are an Artificial Intelligence."
+    }]
 
     messages.append( 
         {
