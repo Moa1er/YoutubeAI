@@ -85,6 +85,7 @@ def get_impression(vid_title, vid_comments):
             "The impression should be maximum 2 sentences but it can also be just 1 sentence."
             + "Never mention that you are an Artificial Intelligence."
             + "Speak at the first person not like everyone agrees with you."
+            + "Don't mention the comments of the video."
     }]
 
     messages.append( {

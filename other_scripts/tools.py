@@ -1,5 +1,5 @@
 import os 
-import send2trash
+from send2trash import send2trash
 
 def read_firs_line_and_del(file_path):
     # Open the file and read all lines into a list
