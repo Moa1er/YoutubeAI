@@ -131,7 +131,8 @@ def get_title(txt_about_vid):
 
 def get_vid_tags(vid_title, vid_impression, vid_comments):
     messages = [ {"role": "system", "content":  
-                "You are a intelligent assistant that gives me tags (starting by '#' and ending by ',') for youtube videos."} ] 
+                "You are a intelligent assistant that gives me tags (starting by '#' and ending by ',') for youtube videos."
+                + "You should give maximum 15 tags."} ] 
 
     messages.append( 
         {

@@ -78,7 +78,7 @@ def upload_tiktok_vid(vid_title, vid_tags, vid_path):
     time.sleep(10)
     upload_btn = wait.until(EC.presence_of_element_located((By.XPATH, "//button[@class='css-y1m958']")))
     upload_btn.click()
-    time.sleep(100)
+    time.sleep(50)
     driver.close()
 
 
