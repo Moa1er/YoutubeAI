@@ -27,6 +27,7 @@ def upload_tiktok_vid(vid_title, vid_tags, vid_path):
     upload_url = "https://www.tiktok.com/creator-center/upload?from=upload"
     driver.get(upload_url)
     wait = WebDriverWait(driver, 100)
+    little_wait = WebDriverWait(driver, 20)
     iframe_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,'iframe[data-tt="Upload_index_iframe"]')))
     driver.switch_to.frame(iframe_element)
     element = wait.until(EC.presence_of_element_located((By.XPATH, "//input[@type='file' and @accept='video/*' and @class='jsx-2834184006']")))
@@ -64,7 +65,7 @@ def upload_tiktok_vid(vid_title, vid_tags, vid_path):
         tag_action = ActionChains(driver)
         tag_action.send_keys(vid_tags[i]).perform()
         try:
-            view_count_propositions = wait.until(EC.presence_of_all_elements_located((By.XPATH, "//span[contains(@class, 'jsx-1584741129 hash-view-count mentionSuggestionsEntryText')]")))
+            view_count_propositions = little_wait.until(EC.presence_of_all_elements_located((By.XPATH, "//span[contains(@class, 'jsx-1584741129 hash-view-count mentionSuggestionsEntryText')]")))
             view_count_propositions = [s.text.replace(" views", "") for s in view_count_propositions]
             best_tag_idx = find_max_idx(view_count_propositions)
             for i in range(0, best_tag_idx):

@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser(description="TikTalk_Creator")
 parser.add_argument("-r", "--repetition", type=int, help="The number of times the script should run, default is 1", required=False, default=1)
 args = parser.parse_args()
 
-def main():
+def youtube_ai(trend_keyword):
     # VARIABLE FOR TESTS, TO REMOVE
     # trend_keyword = "like"
     # impression = "WATCHING THIS VIDEO MAKES ME FEEL HOPEFUL FOR THE KIND OF LOVE I WANT TO EXPERIENCE ONE DAY."
@@ -74,10 +74,10 @@ def main():
     # # chat gpt get trend but always the same so nope
     # trend_keyword = get_trend_keyword()
 
-    # those keyword are extracted with chatgpt-4 + bing
-    list_trend_keywords = ['tiktok', 'love', 'like', 'follow', 'explore', '2023', 'meme', 'video', 'duet', 'repost', 'tiktokchallenge', 'new', 'tiktokfamous', 'tiktoktrend', 'viralvideos', 'viralpost', 'blackgirlfollowtrend', 'relatable', 'slowmo', 'behindthescenes', 'dadsoftiktok', 'momsoftiktok', 'family', 'reallifeathome', 'tiktokmademebuyit', 'mexico', 'challenge', 'youtube', 'youtuber', 'artistsoftiktok', 'foryoupage', 'fyp', 'foryou', 'viral', 'funny', 'memes', 'followme', 'cute', 'fun', 'happy', 'fashion', 'comedy', 'bestvideo', 'tiktok4fun', 'thisis4u', 'loveyoutiktok', 'cutebaby', 'cutegirl', 'pregnantlife', 'cuteness', 'cuteboy']
-    trend_keyword = random.choice(list_trend_keywords)
-    # print("Trend_keyword is: " + trend_keyword)
+    # # those keyword are extracted with chatgpt-4 + bing
+    # list_trend_keywords = ['tiktok', 'love', 'like', 'follow', 'explore', '2023', 'meme', 'video', 'duet', 'repost', 'tiktokchallenge', 'new', 'tiktokfamous', 'tiktoktrend', 'viralvideos', 'viralpost', 'blackgirlfollowtrend', 'relatable', 'slowmo', 'behindthescenes', 'dadsoftiktok', 'momsoftiktok', 'family', 'reallifeathome', 'tiktokmademebuyit', 'mexico', 'challenge', 'youtube', 'youtuber', 'artistsoftiktok', 'foryoupage', 'fyp', 'foryou', 'viral', 'funny', 'memes', 'followme', 'cute', 'fun', 'happy', 'fashion', 'comedy', 'bestvideo', 'tiktok4fun', 'thisis4u', 'loveyoutiktok', 'cutebaby', 'cutegirl', 'pregnantlife', 'cuteness', 'cuteboy']
+    # trend_keyword = random.choice(list_trend_keywords)
+    # # print("Trend_keyword is: " + trend_keyword)
 
     # creation of the name for the resulting files
     artefacts_file_name = trend_keyword + "_" + datetime.datetime.now().strftime("%Y-%m-%d")
@@ -133,6 +133,8 @@ def main():
     # gets tag + category_id + description for the video
     joined_comments = ".".join(vid_comments)
     tags = get_vid_tags(new_vid_title, impression, joined_comments)
+    # removes last element that is a empty string
+    tags = tags[:-1]
     print("tags: ", tags)
     category_id = get_category_id(new_vid_title, impression, joined_comments)
     description = get_description(new_vid_title, joined_comments, " ".join(tags))
@@ -190,9 +192,23 @@ def main():
     upload_tiktok_vid(new_vid_title, tags, final_vid_file_path)
 
 if __name__ == '__main__':
+        list_keyword_done = []
     # try:
         for i in range(0, args.repetition):
-            main()
+            list_trend_keywords = [
+                 'tiktok', 'love', 'like', 'follow', 'explore', '2023', 'meme', 'video', 'duet', 'repost', 
+                 'tiktokchallenge', 'new', 'tiktokfamous', 'tiktoktrend', 'viralvideos', 'viralpost', 
+                 'blackgirlfollowtrend', 'relatable', 'slowmo', 'behindthescenes', 'dadsoftiktok', 
+                 'momsoftiktok', 'family', 'reallifeathome', 'tiktokmademebuyit', 'mexico', 'challenge', 
+                 'youtube', 'youtuber', 'artistsoftiktok', 'foryoupage', 'fyp', 'foryou', 'viral', 'funny', 
+                 'memes', 'followme', 'cute', 'fun', 'happy', 'fashion', 'comedy', 'bestvideo', 'tiktok4fun', 
+                 'thisis4u', 'loveyoutiktok', 'cutebaby', 'cutegirl', 'pregnantlife', 'cuteness', 'cuteboy'
+            ]
+            trend_keyword = random.choice(list_trend_keywords)
+            while trend_keyword in list_keyword_done:
+                trend_keyword = random.choice(list_trend_keywords)
+            list_keyword_done.append(trend_keyword)
+            youtube_ai(trend_keyword)
     # except Exception as e:
     #     send_telegram_message("PROGRAM CRASHED:")
     #     send_telegram_message(str(e))

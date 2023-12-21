@@ -18,7 +18,7 @@ def remove_files_starting_with(dir, prefix):
         if filename.startswith(prefix):
             filepath = os.path.join(dir, filename)
             send2trash(filepath)
-
+    
 def save_info(
         artefacts_file_name,
         video_file_path,

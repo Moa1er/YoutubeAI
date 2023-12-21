@@ -109,13 +109,13 @@ def main():
         description, 
         new_vid_title, 
         tags, 
-        "unlisted", 
+        "public", 
         final_vid_file_path, 
         "PLpoAErUqpB6cdPK-rxiFItyLQ0CN-v2sZ"
     )
 
     # # uploads to tiktok
-    # upload_tiktok_vid(new_vid_title, tags, final_vid_file_path)
+    upload_tiktok_vid(new_vid_title, tags, final_vid_file_path)
 
 if __name__ == '__main__':
     # try:
