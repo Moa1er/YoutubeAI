@@ -4,4 +4,5 @@ data/
 __pycache__
 token.pickle
 vosk-model-en-us-0.22
-cookies.pkl
+*.pkl
+yt-credentials.json

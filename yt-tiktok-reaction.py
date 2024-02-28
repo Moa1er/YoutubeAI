@@ -193,7 +193,7 @@ def youtube_ai(trend_keyword):
 
 if __name__ == '__main__':
         list_keyword_done = []
-    # try:
+    try:
         for i in range(0, args.repetition):
             list_trend_keywords = [
                  'tiktok', 'love', 'like', 'follow', 'explore', '2023', 'meme', 'video', 'duet', 'repost', 
@@ -209,6 +209,6 @@ if __name__ == '__main__':
                 trend_keyword = random.choice(list_trend_keywords)
             list_keyword_done.append(trend_keyword)
             youtube_ai(trend_keyword)
-    # except Exception as e:
-    #     send_telegram_message("PROGRAM CRASHED:")
-    #     send_telegram_message(str(e))
+    except Exception as e:
+        send_telegram_message("PROGRAM CRASHED:")
+        send_telegram_message(str(e))
